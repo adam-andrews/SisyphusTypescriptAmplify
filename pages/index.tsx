@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Avatar from '../components/Avatar'
+import Feed from '../components/Feed'
 import PostBox from '../components/Postbox'
 const Home: NextPage = () => {
 
@@ -11,6 +12,7 @@ const Home: NextPage = () => {
         <title>Reddit 2.0 Clone</title>
         </Head>
         <PostBox/>
+        <Feed/>
     </div>
   )
 }
