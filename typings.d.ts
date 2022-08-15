@@ -29,7 +29,11 @@ type Comments = {
     subreddit_id: number
     title: string
     username: string
-    votes: Vote[]
-    comments: Comments[]
-    subreddit: Subreddit[]
+    votes: number
+    comments: string[]
+    subreddits: string[]
   }
+
+// votes: Vote[]
+// comments: Comments[]
+// subreddit: Subreddit[]
