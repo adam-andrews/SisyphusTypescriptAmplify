@@ -23,9 +23,9 @@ export default function Post({ post }: PostProps) {
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-					<ArrowDownIcon className="voteButtons hover:text-red-400" />
+					<ArrowUpIcon className="voteButtons hover:text-red-400" />
 					<span className="text-black font-bold text-xs">0</span>
-					<ArrowUpIcon className="voteButtons hover:text-blue-400" />
+					<ArrowDownIcon className="voteButtons hover:text-blue-400" />
 				</div>
 
 				<div className="p-3 pb-1">

@@ -14,7 +14,7 @@ export default function Feed({ topic }: FeedProps) {
     username: 'username',
     subreddit: [{ topic: 'react' }],
     created_at: '2020-01-01',
-    comments: [],
+    comments: ["This is a comment"],
     votes: 0,
     subreddit_id: 1,
     subreddits:["react"],

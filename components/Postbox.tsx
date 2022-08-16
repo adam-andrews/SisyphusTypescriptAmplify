@@ -11,6 +11,7 @@ type FormData = {
 };
 function PostBox() {
 	const [imageBoxOpen, setImageBoxOpen] = React.useState<boolean>(false);
+    //Make Addpost refetch Posts after submitting
 
 	const {
 		register,
