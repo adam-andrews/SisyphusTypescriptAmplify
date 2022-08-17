@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -18,12 +18,13 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
+    const [vote, setVote] = useState<boolean>()
 	return (
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-					<ArrowUpIcon className="voteButtons hover:text-red-400" />
+					<ArrowUpIcon className="voteButtons hover:text-blue-400" />
 					<span className="text-black font-bold text-xs">0</span>
 					<ArrowDownIcon className="voteButtons hover:text-blue-400" />
 				</div>
@@ -34,7 +35,7 @@ export default function Post({ post }: PostProps) {
 						<Avatar />
 						<p className="text-xs text-gray-400 ">
 							<Link href={`/subreddit`}>
-								<span className="font-bold text-black hover:text-blue-400 hover:underline">
+								<span className="font-bold text-black hover:text-red-400 hover:underline">
 									r/"{post.subreddits}"
 								</span>
 							</Link>{' '}
