@@ -76,7 +76,7 @@ export default function PostPage() {
 
         <form
           className="flex max-w-5xl flex-col space-y-2"
-        //   onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <textarea
             {...register('comment')}
