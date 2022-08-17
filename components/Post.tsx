@@ -19,7 +19,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
 	return (
-		<Link href="">
+		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
@@ -33,7 +33,7 @@ export default function Post({ post }: PostProps) {
 					<header className="flex items-center space-x-2">
 						<Avatar />
 						<p className="text-xs text-gray-400 ">
-							<Link href={''}>
+							<Link href={`/subreddit`}>
 								<span className="font-bold text-black hover:text-blue-400 hover:underline">
 									r/"{post.subreddits}"
 								</span>

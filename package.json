@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "@uiball/loaders": "^1.2.6",
     "next": "latest",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.34.1",
+    "react-hot-toast": "^2.3.0",
     "react-timeago": "^7.1.0"
   },
   "devDependencies": {

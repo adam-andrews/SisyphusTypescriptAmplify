@@ -9,9 +9,14 @@ type FormData = {
 	postImage: string;
 	subreddit: string;
 };
-function PostBox() {
+
+type Props = {
+	subreddit?: string;
+};
+function PostBox({ subreddit }: Props) {
 	const [imageBoxOpen, setImageBoxOpen] = React.useState<boolean>(false);
-    //Make Addpost refetch Posts after submitting
+	//Make Addpost refetch Posts after submitting
+    console.log(subreddit);
 
 	const {
 		register,
@@ -60,15 +65,18 @@ function PostBox() {
 							placeholder="Enter a body(Optional)"
 						/>
 					</div>
-					<div className="flex items-center px-2">
-						<p className="min-w-[90px]">Subreddit:</p>
-						<input
-							className="m-2 flex-1 p-2 outline-none"
-							{...register('subreddit', { required: true })}
-							type="text"
-							placeholder="i.e Next.js"
-						/>
-					</div>
+					{!subreddit && (
+						<div className="flex items-center px-2">
+							<p className="min-w-[90px]">Subreddit:</p>
+							<input
+								className="m-2 flex-1 p-2 outline-none"
+								{...register('subreddit', { required: true })}
+								type="text"
+								placeholder="i.e Next.js"
+							/>
+						</div>
+					)}
+
 					{imageBoxOpen && (
 						<div className="flex items-center px-2">
 							<p className="min-w-[90px]">Image:</p>

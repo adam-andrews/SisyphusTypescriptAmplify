@@ -27,7 +27,7 @@ export default function Subreddit() {
       </div>
 
       <div className="mt-5">
-        {/* <PostBox subreddit={topic! as string} /> */}
+        <PostBox subreddit={topic! as string} />
         <Feed topic={topic as string} />
       </div>
     </div>
