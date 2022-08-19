@@ -3,10 +3,14 @@ import { ChevronUpIcon } from '@heroicons/react/solid';
 import Avatar from './Avatar';
 import Link from 'next/link';
 
+//Amplify
+
+
 interface SubredditRowProps {
 	index: number;
 	topic: string;
 }
+
 
 export default function SubredditRow({ index, topic }: SubredditRowProps) {
 	return (
