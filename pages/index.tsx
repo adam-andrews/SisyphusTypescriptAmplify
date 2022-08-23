@@ -5,6 +5,7 @@ import Avatar from '../components/Avatar';
 import Feed from '../components/Feed';
 import PostBox from '../components/Postbox';
 import SubredditRow from '../components/SubredditRow';
+import { Auth } from 'aws-amplify';
 
 //Amplify
 import { Amplify } from 'aws-amplify';
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
 						<title>Reddit 2.0 Clone</title>
 					</Head>
 					<PostBox />
+					<h1>Hello {user?.username}</h1>
 					<div className="flex">
 						<Feed />
 						<div className="top-40 ml-5 mt-5 hidden h-fit min-w-[300px] rounded-md border border-gray-200 bg-white lg:inline">
@@ -32,7 +34,7 @@ const Home: NextPage = () => {
 
 							<div>
 								{subreddits?.map((subreddit, index) => (
-									<SubredditRow key={1} topic={'react'} index={index} />
+									<SubredditRow key={index} topic={subreddit} index={index} />
 								))}
 							</div>
 						</div>

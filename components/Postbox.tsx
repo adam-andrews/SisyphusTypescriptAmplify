@@ -2,6 +2,7 @@ import React, { cloneElement } from 'react';
 import Avatar from './Avatar';
 import { PhotographIcon, LinkIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
+import { useUser } from '../context/AuthContext';
 
 type FormData = {
 	postTitle: string;
@@ -15,8 +16,9 @@ type Props = {
 };
 function PostBox({ subreddit }: Props) {
 	const [imageBoxOpen, setImageBoxOpen] = React.useState<boolean>(false);
+	const { user, setUser } = useUser();
+
 	//Make Addpost refetch Posts after submitting
-    console.log(subreddit);
 
 	const {
 		register,
@@ -37,10 +39,10 @@ function PostBox({ subreddit }: Props) {
 		>
 			<div className="flex items-center space-x-3">
 				{/* Avatar */}
-				<Avatar />
+				<Avatar seed={user ? user.username : 'null'} />
 				<input
 					{...register('postTitle', { required: true })}
-					// disabled={!session}
+					disabled={!user}
 					className="flex-1 rounded-md bg-gray-50 p-2 pl-5 outline-none"
 					type="text"
 					placeholder="Title"

@@ -34,6 +34,7 @@ type Comments = {
     subreddits: string[]
   }
 
+
 // votes: Vote[]
 // comments: Comments[]
 // subreddit: Subreddit[]

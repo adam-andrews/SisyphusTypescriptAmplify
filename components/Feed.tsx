@@ -23,8 +23,8 @@ export default function Feed({ topic }: FeedProps) {
 
   return (
     <div className="mt-5 space-y-4">
-      {posts?.map((post) => (
-        <Post key={post.id} post={post}/>
+      {posts?.map((post,index) => (
+        <Post key={index} post={post}/>
       ))}
     </div>
   )

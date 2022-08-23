@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -12,13 +12,23 @@ import {
 import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
+import { Auth } from 'aws-amplify';
 
 interface PostProps {
 	post: Post;
 }
 
 export default function Post({ post }: PostProps) {
-    const [vote, setVote] = useState<boolean>()
+	const [vote, setVote] = useState<boolean>();
+	const user = Auth.currentAuthenticatedUser();
+	async function getUserInfo() {
+		const user = await Auth.currentAuthenticatedUser();
+		console.log('attributes:', user.attributes);
+	}
+
+	useEffect(() => {
+		getUserInfo();
+	}, [user]);
 	return (
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
