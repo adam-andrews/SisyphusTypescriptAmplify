@@ -3,73 +3,31 @@
 input AMPLIFY {
 	globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
-type Subreddit
-	@model
-	@auth(
-		rules: [
-			# Owner can read a subreddit
-			{ allow: owner, operations: [read] }
-			# Other signed in users can read everyones a subreddit
-			{ allow: private, operations: [read] }
-			# Non-signed in users (guests) can read a subreddit
-			{ allow: public, operations: [read] }
-		]
-	) {
+type Vote @model @auth(rules: [{ allow: public }]) {
 	id: ID!
-	name: String!
-	posts: [Comment] @connection(keyName: "bySubreddit", fields: ["id"])
+	vote: String!
+	postID: ID! @index(name: "byPost")
 }
 
-type Post
-	@model
-	@auth(
-		rules: [
-			# Owner can perform any action on their own Post
-			{ allow: owner, operations: [create, update, delete, read] }
-			# Other signed in users can read everyones posts
-			{ allow: private, operations: [read] }
-			# Non-signed in users (guests) can read everyones posts as well.
-			{ allow: public, operations: [read] }
-		]
-	) {
+type Comment @model @auth(rules: [{ allow: public }]) {
 	id: ID!
-	subredditID: ID!
-  subreddit: Subreddit @connection(keyName: "bySubreddit", fields: ["id"])
+	content: String!
+	postID: ID! @index(name: "byPost")
+}
+
+type Post @model @auth(rules: [{ allow: public }]) {
+	id: ID!
 	title: String!
 	contents: String!
 	image: String
-	votes: [Vote!]! @connection(keyName: "byVote", fields: ["id"])
-	comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
-}
-
-type Comment
-	@model
-	@key(name: "byPost", fields: ["postID", "content"])
-	@auth(
-		rules: [
-			{ allow: owner, operations: [create, update, delete, read] }
-			{ allow: private, operations: [read] }
-			{ allow: public, operations: [read] }
-		]
-	) {
-	id: ID!
-	postID: ID!
-	post: Post @connection(fields: ["postID"])
-	content: String!
-}
-
-type Vote
-	@model
-	@key(name: "byVote", fields: ["postID", "vote"])
-	@auth(
-		rules: [
-			{ allow: owner, operations: [create, update, delete, read] }
-			{ allow: private, operations: [read] }
-			{ allow: public, operations: [read] }
-		]
-	) {
-	id: ID!
 	vote: String!
-	postID: ID!
-	post: Post @connection(fields: ["postID"])
+	subredditID: ID! @index(name: "bySubreddit")
+	Comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+	Votes: [Vote] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+type Subreddit @model @auth(rules: [{ allow: public }]) {
+	id: ID!
+	name: String!
+	posts: [Post!] @hasMany(indexName: "bySubreddit", fields: ["id"])
 }
