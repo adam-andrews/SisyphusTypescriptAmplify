@@ -23,8 +23,7 @@ const Home: NextPage = () => {
 					<Head>
 						<title>Reddit 2.0 Clone</title>
 					</Head>
-					<PostBox />
-					<h1>Hello {user?.username}</h1>
+					{user && <PostBox />}
 					<div className="flex">
 						<Feed />
 						<div className="top-40 ml-5 mt-5 hidden h-fit min-w-[300px] rounded-md border border-gray-200 bg-white lg:inline">
