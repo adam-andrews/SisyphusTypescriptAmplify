@@ -5,9 +5,15 @@ import Avatar from '../components/Avatar';
 import Feed from '../components/Feed';
 import PostBox from '../components/Postbox';
 import SubredditRow from '../components/SubredditRow';
-import { Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
 
-//Amplify
+import { createSubreddit } from '../src/graphql/mutations';
+const subreddit = {
+	id: 1,
+	topic: 'react',
+};
+
+//Amplify CreateSubredditInput
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -16,6 +22,8 @@ import awsExports from '../src/aws-exports';
 Amplify.configure(awsExports);
 const Home: NextPage = () => {
 	const subreddits = ['reactjs', 'javascript', 'typescript', 'programming'];
+
+
 	return (
 		<Authenticator>
 			{({ signOut, user }) => (
