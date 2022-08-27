@@ -13,22 +13,14 @@ import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
+import { Post as PostType } from '../src/API';
+
 
 interface PostProps {
-	post: Post;
+	post: PostType;
 }
 
 export default function Post({ post }: PostProps) {
-	const [vote, setVote] = useState<boolean>();
-	const user = Auth.currentAuthenticatedUser();
-	async function getUserInfo() {
-		const user = await Auth.currentAuthenticatedUser();
-		console.log('attributes:', user.attributes);
-	}
-
-	useEffect(() => {
-		getUserInfo();
-	}, [user]);
 	return (
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
@@ -46,17 +38,17 @@ export default function Post({ post }: PostProps) {
 						<p className="text-xs text-gray-400 ">
 							<Link href={`/subreddit`}>
 								<span className="font-bold text-black hover:text-red-400 hover:underline">
-									r/"{post.subreddits}"
+									r/post.subreddits
 								</span>
 							</Link>{' '}
 							* Posted bt u/
-							{post.username} <TimeAgo date={post.created_at} />
+							{post.username} <TimeAgo date={post.createdAt} />
 						</p>
 					</header>
 
 					<div className="py-4">
 						<h2 className="text-xl font-semibold">{post.title}</h2>
-						<p className="mt-2 text-sm font-light">{post.body}</p>
+						<p className="mt-2 text-sm font-light">{post.contents}</p>
 					</div>
 
 					<div>
@@ -68,19 +60,19 @@ export default function Post({ post }: PostProps) {
 					<div className="flex space-x-4 text-gray-400 mt-2">
 						<div className="postButtons">
 							<ChatAltIcon className="h-6 w-6" />
-							<p>{post.comments.length} Comments</p>
+							<p>{post.Comments?"Hello":0} Comments</p>
 						</div>
 						<div className="postButtons">
 							<GiftIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.comments.length} Award</p>
+							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
 						</div>
 						<div className="postButtons">
 							<ShareIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.comments.length} Share</p>
+							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
 						</div>
 						<div className="postButtons">
 							<BookmarkIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.comments.length} Save</p>
+							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
 						</div>
 						<div className="postButtons">
 							<DotsCircleHorizontalIcon className="h-6 w-6" />

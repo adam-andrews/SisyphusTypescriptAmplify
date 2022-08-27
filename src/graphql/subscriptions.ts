@@ -8,6 +8,7 @@ export const onCreateVote = /* GraphQL */ `
       id
       vote
       postID
+      username
       createdAt
       updatedAt
     }
@@ -19,6 +20,7 @@ export const onUpdateVote = /* GraphQL */ `
       id
       vote
       postID
+      username
       createdAt
       updatedAt
     }
@@ -30,6 +32,7 @@ export const onDeleteVote = /* GraphQL */ `
       id
       vote
       postID
+      username
       createdAt
       updatedAt
     }
@@ -41,6 +44,7 @@ export const onCreateComment = /* GraphQL */ `
       id
       content
       postID
+      username
       createdAt
       updatedAt
     }
@@ -52,6 +56,7 @@ export const onUpdateComment = /* GraphQL */ `
       id
       content
       postID
+      username
       createdAt
       updatedAt
     }
@@ -63,6 +68,7 @@ export const onDeleteComment = /* GraphQL */ `
       id
       content
       postID
+      username
       createdAt
       updatedAt
     }
@@ -82,6 +88,7 @@ export const onCreatePost = /* GraphQL */ `
           id
           content
           postID
+          username
           createdAt
           updatedAt
         }
@@ -92,11 +99,13 @@ export const onCreatePost = /* GraphQL */ `
           id
           vote
           postID
+          username
           createdAt
           updatedAt
         }
         nextToken
       }
+      username
       createdAt
       updatedAt
     }
@@ -116,6 +125,7 @@ export const onUpdatePost = /* GraphQL */ `
           id
           content
           postID
+          username
           createdAt
           updatedAt
         }
@@ -126,11 +136,13 @@ export const onUpdatePost = /* GraphQL */ `
           id
           vote
           postID
+          username
           createdAt
           updatedAt
         }
         nextToken
       }
+      username
       createdAt
       updatedAt
     }
@@ -150,6 +162,7 @@ export const onDeletePost = /* GraphQL */ `
           id
           content
           postID
+          username
           createdAt
           updatedAt
         }
@@ -160,11 +173,13 @@ export const onDeletePost = /* GraphQL */ `
           id
           vote
           postID
+          username
           createdAt
           updatedAt
         }
         nextToken
       }
+      username
       createdAt
       updatedAt
     }
@@ -183,6 +198,7 @@ export const onCreateSubreddit = /* GraphQL */ `
           image
           vote
           subredditID
+          username
           createdAt
           updatedAt
         }
@@ -206,6 +222,7 @@ export const onUpdateSubreddit = /* GraphQL */ `
           image
           vote
           subredditID
+          username
           createdAt
           updatedAt
         }
@@ -229,6 +246,7 @@ export const onDeleteSubreddit = /* GraphQL */ `
           image
           vote
           subredditID
+          username
           createdAt
           updatedAt
         }

@@ -8,6 +8,7 @@ export const getVote = /* GraphQL */ `
       id
       vote
       postID
+      username
       createdAt
       updatedAt
     }
@@ -24,6 +25,7 @@ export const listVotes = /* GraphQL */ `
         id
         vote
         postID
+        username
         createdAt
         updatedAt
       }
@@ -37,6 +39,7 @@ export const getComment = /* GraphQL */ `
       id
       content
       postID
+      username
       createdAt
       updatedAt
     }
@@ -53,6 +56,7 @@ export const listComments = /* GraphQL */ `
         id
         content
         postID
+        username
         createdAt
         updatedAt
       }
@@ -74,6 +78,7 @@ export const getPost = /* GraphQL */ `
           id
           content
           postID
+          username
           createdAt
           updatedAt
         }
@@ -84,11 +89,13 @@ export const getPost = /* GraphQL */ `
           id
           vote
           postID
+          username
           createdAt
           updatedAt
         }
         nextToken
       }
+      username
       createdAt
       updatedAt
     }
@@ -114,6 +121,7 @@ export const listPosts = /* GraphQL */ `
         Votes {
           nextToken
         }
+        username
         createdAt
         updatedAt
       }
@@ -134,6 +142,7 @@ export const getSubreddit = /* GraphQL */ `
           image
           vote
           subredditID
+          username
           createdAt
           updatedAt
         }

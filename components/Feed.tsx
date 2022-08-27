@@ -3,6 +3,7 @@ import Post from './Post';
 import { listPosts } from '../src/graphql/queries';
 import awsExports from '../src/aws-exports';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Post as PostType, ListPostsQuery } from '../src/API';
 Amplify.configure(awsExports);
 
 interface FeedProps {
@@ -10,37 +11,33 @@ interface FeedProps {
 }
 
 export default function Feed({ topic }: FeedProps) {
-	const [feed, setFeed] = useState([]);
+	const [posts, setPosts] = useState<PostType[]>();
+
+	console.log('feed', posts);
 
 	useEffect(() => {
 		fetchPosts();
 	}, []);
 
-	async function fetchPosts(){
+	async function fetchPosts() {
 		try {
-			const postData:any = await API.graphql(graphqlOperation(listPosts));
-			const posts = postData.data.listPosts.items || [];
-      console.log(posts);
-			setFeed(feed);
+			const allPosts = (await API.graphql({ query: listPosts })) as {
+				data: any;
+				errors: any[];
+			};
+			console.log("All posts", allPosts);
+			console.log("all Posts data",allPosts.data)
+			if (allPosts.data.listPosts.items){
+				setPosts(allPosts.data.listPosts.items as PostType[]);
+
+			}
+			
+
+			
 		} catch (err) {
-			console.log('error fetching todos');
+			console.log('error fetching todos',err);
 		}
 	}
-	const post = {
-		id: 1,
-		title: 'This is a title',
-		body: 'This is a body',
-		image:
-			'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-		username: 'username',
-		subreddit: [{ topic: 'react' }],
-		created_at: '2020-01-01',
-		comments: ['This is a comment'],
-		votes: 0,
-		subreddit_id: 1,
-		subreddits: ['react'],
-	};
-	const posts = [post, post, post];
 
 	return (
 		<div className="mt-5 space-y-4">
