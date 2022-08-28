@@ -106,6 +106,7 @@ export const onCreatePost = /* GraphQL */ `
         nextToken
       }
       username
+      subredditName
       createdAt
       updatedAt
     }
@@ -143,6 +144,7 @@ export const onUpdatePost = /* GraphQL */ `
         nextToken
       }
       username
+      subredditName
       createdAt
       updatedAt
     }
@@ -180,6 +182,7 @@ export const onDeletePost = /* GraphQL */ `
         nextToken
       }
       username
+      subredditName
       createdAt
       updatedAt
     }
@@ -199,6 +202,7 @@ export const onCreateSubreddit = /* GraphQL */ `
           vote
           subredditID
           username
+          subredditName
           createdAt
           updatedAt
         }
@@ -223,6 +227,7 @@ export const onUpdateSubreddit = /* GraphQL */ `
           vote
           subredditID
           username
+          subredditName
           createdAt
           updatedAt
         }
@@ -247,6 +252,7 @@ export const onDeleteSubreddit = /* GraphQL */ `
           vote
           subredditID
           username
+          subredditName
           createdAt
           updatedAt
         }

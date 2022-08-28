@@ -34,11 +34,11 @@ export default function Post({ post }: PostProps) {
 				<div className="p-3 pb-1">
 					{/* Header */}
 					<header className="flex items-center space-x-2">
-						<Avatar />
+						<Avatar seed={post.username}/>
 						<p className="text-xs text-gray-400 ">
 							<Link href={`/subreddit`}>
 								<span className="font-bold text-black hover:text-red-400 hover:underline">
-									r/post.subreddits
+									r/{post.subredditName}
 								</span>
 							</Link>{' '}
 							* Posted bt u/

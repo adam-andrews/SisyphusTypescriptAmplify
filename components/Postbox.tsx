@@ -3,6 +3,16 @@ import Avatar from './Avatar';
 import { PhotographIcon, LinkIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../context/AuthContext';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import {
+	Post as PostType,
+	CreatePostInput,
+	ListSubredditsQuery,
+} from '../src/API';
+import { createPost } from '../src/graphql/mutations';
+import { getSubreddit, subredditBySubredditName } from '../src/graphql/queries';
+import awsExports from '../src/aws-exports';
+Amplify.configure(awsExports);
 
 type FormData = {
 	postTitle: string;
@@ -16,6 +26,7 @@ type Props = {
 };
 function PostBox({ subreddit }: Props) {
 	const [imageBoxOpen, setImageBoxOpen] = React.useState<boolean>(false);
+
 	const { user, setUser } = useUser();
 
 	//Make Addpost refetch Posts after submitting
@@ -30,6 +41,26 @@ function PostBox({ subreddit }: Props) {
 
 	const onSubmit = handleSubmit(async (formData) => {
 		console.log(formData);
+		const { postTitle, postBody, postImage, subreddit } = formData;
+		// Check If subreddit exists
+		const subredditRequest = await API.graphql({
+			query:subredditBySubredditName,
+			variables: { name: 'reddit' }
+		  }) as {
+			data: any;
+			errors: any[];
+		};
+
+
+		
+		if(subredditRequest.data.subredditBySubredditName.items[0].name){
+			console.log('subreddit exists');
+
+		}
+		//If exists Create Post
+		// const newPost = await API.graphql(
+		// 	graphqlOperation(createPost, { input: formData })
+		// ); // equivalent to above example
 	});
 
 	return (

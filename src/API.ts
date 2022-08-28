@@ -140,6 +140,7 @@ export type CreatePostInput = {
   vote: string,
   subredditID: string,
   username: string,
+  subredditName: string,
 };
 
 export type ModelPostConditionInput = {
@@ -149,6 +150,7 @@ export type ModelPostConditionInput = {
   vote?: ModelStringInput | null,
   subredditID?: ModelIDInput | null,
   username?: ModelStringInput | null,
+  subredditName?: ModelStringInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -165,6 +167,7 @@ export type Post = {
   Comments?: ModelCommentConnection | null,
   Votes?: ModelVoteConnection | null,
   username: string,
+  subredditName: string,
   createdAt: string,
   updatedAt: string,
 };
@@ -189,6 +192,7 @@ export type UpdatePostInput = {
   vote?: string | null,
   subredditID?: string | null,
   username?: string | null,
+  subredditName?: string | null,
 };
 
 export type DeletePostInput = {
@@ -259,6 +263,7 @@ export type ModelPostFilterInput = {
   vote?: ModelStringInput | null,
   subredditID?: ModelIDInput | null,
   username?: ModelStringInput | null,
+  subredditName?: ModelStringInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
   or?: Array< ModelPostFilterInput | null > | null,
   not?: ModelPostFilterInput | null,
@@ -277,6 +282,12 @@ export type ModelSubredditConnection = {
   items:  Array<Subreddit | null >,
   nextToken?: string | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type CreateVoteMutationVariables = {
   input: CreateVoteInput,
@@ -421,6 +432,7 @@ export type CreatePostMutation = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -467,6 +479,7 @@ export type UpdatePostMutation = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -513,6 +526,7 @@ export type DeletePostMutation = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -539,6 +553,7 @@ export type CreateSubredditMutation = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -570,6 +585,7 @@ export type UpdateSubredditMutation = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -601,6 +617,7 @@ export type DeleteSubredditMutation = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -727,6 +744,7 @@ export type GetPostQuery = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -758,6 +776,7 @@ export type ListPostsQuery = {
         nextToken?: string | null,
       } | null,
       username: string,
+      subredditName: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -785,6 +804,7 @@ export type GetSubredditQuery = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -803,6 +823,68 @@ export type ListSubredditsQueryVariables = {
 
 export type ListSubredditsQuery = {
   listSubreddits?:  {
+    __typename: "ModelSubredditConnection",
+    items:  Array< {
+      __typename: "Subreddit",
+      id: string,
+      name: string,
+      posts?:  {
+        __typename: "ModelPostConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type PostBySubredditNameQueryVariables = {
+  subredditName: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelPostFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type PostBySubredditNameQuery = {
+  postBySubredditName?:  {
+    __typename: "ModelPostConnection",
+    items:  Array< {
+      __typename: "Post",
+      id: string,
+      title: string,
+      contents: string,
+      image?: string | null,
+      vote: string,
+      subredditID: string,
+      Comments?:  {
+        __typename: "ModelCommentConnection",
+        nextToken?: string | null,
+      } | null,
+      Votes?:  {
+        __typename: "ModelVoteConnection",
+        nextToken?: string | null,
+      } | null,
+      username: string,
+      subredditName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type SubredditBySubredditNameQueryVariables = {
+  name: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelSubredditFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SubredditBySubredditNameQuery = {
+  subredditBySubredditName?:  {
     __typename: "ModelSubredditConnection",
     items:  Array< {
       __typename: "Subreddit",
@@ -927,6 +1009,7 @@ export type OnCreatePostSubscription = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -968,6 +1051,7 @@ export type OnUpdatePostSubscription = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1009,6 +1093,7 @@ export type OnDeletePostSubscription = {
       nextToken?: string | null,
     } | null,
     username: string,
+    subredditName: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1030,6 +1115,7 @@ export type OnCreateSubredditSubscription = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1056,6 +1142,7 @@ export type OnUpdateSubredditSubscription = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1082,6 +1169,7 @@ export type OnDeleteSubredditSubscription = {
         vote: string,
         subredditID: string,
         username: string,
+        subredditName: string,
         createdAt: string,
         updatedAt: string,
       } | null >,

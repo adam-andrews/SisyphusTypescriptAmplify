@@ -96,6 +96,7 @@ export const getPost = /* GraphQL */ `
         nextToken
       }
       username
+      subredditName
       createdAt
       updatedAt
     }
@@ -122,6 +123,7 @@ export const listPosts = /* GraphQL */ `
           nextToken
         }
         username
+        subredditName
         createdAt
         updatedAt
       }
@@ -143,6 +145,7 @@ export const getSubreddit = /* GraphQL */ `
           vote
           subredditID
           username
+          subredditName
           createdAt
           updatedAt
         }
@@ -160,6 +163,71 @@ export const listSubreddits = /* GraphQL */ `
     $nextToken: String
   ) {
     listSubreddits(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const postBySubredditName = /* GraphQL */ `
+  query PostBySubredditName(
+    $subredditName: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    postBySubredditName(
+      subredditName: $subredditName
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        contents
+        image
+        vote
+        subredditID
+        Comments {
+          nextToken
+        }
+        Votes {
+          nextToken
+        }
+        username
+        subredditName
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const subredditBySubredditName = /* GraphQL */ `
+  query SubredditBySubredditName(
+    $name: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSubredditFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    subredditBySubredditName(
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         name
