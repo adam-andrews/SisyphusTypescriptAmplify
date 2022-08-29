@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
-import { listPosts } from '../src/graphql/queries';
+import { listPosts, postBySubredditName } from '../src/graphql/queries';
 import awsExports from '../src/aws-exports';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { Post as PostType, ListPostsQuery } from '../src/API';
@@ -12,30 +12,24 @@ interface FeedProps {
 
 export default function Feed({ topic }: FeedProps) {
 	const [posts, setPosts] = useState<PostType[]>();
-
-	console.log('feed', posts);
-
 	useEffect(() => {
 		fetchPosts();
 	}, []);
-
+	console.log(topic);
 	async function fetchPosts() {
 		try {
 			const allPosts = (await API.graphql({ query: listPosts })) as {
 				data: any;
 				errors: any[];
 			};
-			console.log("All posts", allPosts);
-			console.log("all Posts data",allPosts.data)
-			if (allPosts.data.listPosts.items){
+
+			console.log('All posts', allPosts);
+			console.log('all Posts data', allPosts.data);
+			if (allPosts.data.listPosts.items) {
 				setPosts(allPosts.data.listPosts.items as PostType[]);
-
 			}
-			
-
-			
 		} catch (err) {
-			console.log('error fetching todos',err);
+			console.log('error fetching todos', err);
 		}
 	}
 

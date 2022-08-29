@@ -43,19 +43,37 @@ function PostBox({ subreddit }: Props) {
 		console.log(formData);
 		const { postTitle, postBody, postImage, subreddit } = formData;
 		// Check If subreddit exists
-		const subredditRequest = await API.graphql({
-			query:subredditBySubredditName,
-			variables: { name: 'reddit' }
-		  }) as {
+		const subredditRequest = (await API.graphql({
+			query: subredditBySubredditName,
+			variables: { name: subreddit },
+		})) as {
 			data: any;
 			errors: any[];
 		};
 
+		try {
+			if (subredditRequest.data.subredditBySubredditName.items[0].name) {
+				const postDetails = {
+					contents: postBody,
+					image: postImage,
+					title: postTitle,
+					subredditID:subredditRequest.data.subredditBySubredditName.items[0].id,
+					subredditName: subreddit,
+					username: user.username,
+					vote: '0',
+				};
 
-		
-		if(subredditRequest.data.subredditBySubredditName.items[0].name){
-			console.log('subreddit exists');
-
+				const postCreateRequest = (await API.graphql({
+					query: createPost,
+					variables: { input: postDetails },
+				})) as {
+					data: any;
+					errors: any[];
+				};
+			}
+		} catch (err) {
+			console.log('subreddit not exists');
+			console.log(err);
 		}
 		//If exists Create Post
 		// const newPost = await API.graphql(
