@@ -57,7 +57,8 @@ function PostBox({ subreddit }: Props) {
 					contents: postBody,
 					image: postImage,
 					title: postTitle,
-					subredditID:subredditRequest.data.subredditBySubredditName.items[0].id,
+					subredditID:
+						subredditRequest.data.subredditBySubredditName.items[0].id,
 					subredditName: subreddit,
 					username: user.username,
 					vote: '0',
