@@ -23,6 +23,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
 	const [upvote, setUpvote] = useState(0);
+	const [hasUpvoted, setHasUpvoted] = useState(false);
 
 	useEffect(() => {
 		fetchUpvote();
@@ -36,19 +37,36 @@ export default function Post({ post }: PostProps) {
 			};
 			console.log('allUpvotes', data);
 			//loops through all votes and adds up the upvotes and subtracts the downvotes
-			var count = 0
-			const mapVotes = data.listVotes.items.map((vote: { vote: string; }) => {
+			var count = 0;
+			const mapVotes = data.listVotes.items.map((vote: { vote: string }) => {
 				console.log('vote', vote.vote);
 				if (vote.vote === 'yes') {
-					count +=1;
+					count += 1;
+				} else {
+					count -= 1;
 				}
-				else{
-					count -=1;
-				}
-			})
+			});
 			setUpvote(count);
 		} catch (err) {
 			console.log('error fetching todos', err);
+		}
+	}
+
+	async function upvotePost() {
+		if (!hasUpvoted) {
+			setUpvote(upvote + 1);
+			setHasUpvoted(true);
+		} else {
+			setUpvote(upvote + 2);
+		}
+	}
+
+	async function downvotePost() {
+		if (!hasUpvoted) {
+			setUpvote(upvote + 1);
+			setHasUpvoted(true);
+		} else {
+			setUpvote(upvote - 2);
 		}
 	}
 
@@ -57,9 +75,15 @@ export default function Post({ post }: PostProps) {
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-					<ArrowUpIcon className="voteButtons hover:text-blue-400" />
+					<ArrowUpIcon
+						onClick={upvotePost}
+						className="voteButtons hover:text-blue-400"
+					/>
 					<span className="text-black font-bold text-xs">{upvote}</span>
-					<ArrowDownIcon className="voteButtons hover:text-blue-400" />
+					<ArrowDownIcon
+						onClick={downvotePost}
+						className="voteButtons hover:text-blue-400"
+					/>
 				</div>
 
 				<div className="p-3 pb-1">
