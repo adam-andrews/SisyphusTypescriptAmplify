@@ -176,6 +176,60 @@ export const listSubreddits = /* GraphQL */ `
     }
   }
 `;
+export const voteByPostId = /* GraphQL */ `
+  query VoteByPostId(
+    $postID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelVoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    voteByPostId(
+      postID: $postID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        vote
+        postID
+        username
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const commentByPostId = /* GraphQL */ `
+  query CommentByPostId(
+    $postID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentByPostId(
+      postID: $postID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        content
+        postID
+        username
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const postBySubredditName = /* GraphQL */ `
   query PostBySubredditName(
     $subredditName: String!

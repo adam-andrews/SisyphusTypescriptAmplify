@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast';
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
-import { getPost } from '../../src/graphql/queries';
+import { commentByPostId, getPost } from '../../src/graphql/queries';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 
 type FormData = {
@@ -33,14 +33,14 @@ const post1 = {
 };
 
 export default function PostPage() {
-	const [postData, setPostData] = useState();
-
+	const [postData, setPostData] = useState<any[]>();
 	const {
 		query: { post },
 	} = useRouter();
 	useEffect(() => {
 		fetchPosts();
 	}, []);
+	 console.log(postData)
 	async function fetchPosts() {
 		try {
 			const { data } = (await API.graphql({
@@ -127,25 +127,25 @@ export default function PostPage() {
 
 					<div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10">
 						<hr className="py-2" />
-
-						{post1?.comments.map((comment) => (
+					    
+						{postData?.Comments.items.map((comment) => (
 							<div
 								className="relative flex items-center space-x-2 space-y-5"
-								key={post1.id}
+								key={comment.id}
 							>
 								<hr className="absolute top-10 h-16 border left-7 z-0" />
 								<div className="z-50">
-									<Avatar seed={post1.username} />
+									<Avatar seed={comment.username} />
 								</div>
 
 								<div className="flex flex-col">
 									<p className="py-2 text-xs text-gray-400">
 										<span className="font-semibold text-gray-600">
-											{post1.username}
+											{comment.username}
 										</span>{' '}
-										· <TimeAgo date={post1.created_at} />
+										· <TimeAgo date={comment.createdAt} />
 									</p>
-									<p>comment.text</p>
+									<p>{comment.content}</p>
 								</div>
 							</div>
 						))}

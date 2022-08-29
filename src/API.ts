@@ -839,6 +839,54 @@ export type ListSubredditsQuery = {
   } | null,
 };
 
+export type VoteByPostIdQueryVariables = {
+  postID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVoteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type VoteByPostIdQuery = {
+  voteByPostId?:  {
+    __typename: "ModelVoteConnection",
+    items:  Array< {
+      __typename: "Vote",
+      id: string,
+      vote: string,
+      postID: string,
+      username: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type CommentByPostIdQueryVariables = {
+  postID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCommentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CommentByPostIdQuery = {
+  commentByPostId?:  {
+    __typename: "ModelCommentConnection",
+    items:  Array< {
+      __typename: "Comment",
+      id: string,
+      content: string,
+      postID: string,
+      username: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type PostBySubredditNameQueryVariables = {
   subredditName: string,
   sortDirection?: ModelSortDirection | null,
