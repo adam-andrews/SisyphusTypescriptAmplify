@@ -14,19 +14,51 @@ import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import { Post as PostType } from '../src/API';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { listVotes } from '../src/graphql/queries';
 
 interface PostProps {
 	post: PostType;
 }
 
 export default function Post({ post }: PostProps) {
+	const [upvote, setUpvote] = useState(0);
+
+	useEffect(() => {
+		fetchUpvote();
+	});
+
+	async function fetchUpvote() {
+		try {
+			const { data } = (await API.graphql({ query: listVotes })) as {
+				data: any;
+				errors: any[];
+			};
+			console.log('allUpvotes', data);
+			//loops through all votes and adds up the upvotes and subtracts the downvotes
+			var count = 0
+			const mapVotes = data.listVotes.items.map((vote: { vote: string; }) => {
+				console.log('vote', vote.vote);
+				if (vote.vote === 'yes') {
+					count +=1;
+				}
+				else{
+					count -=1;
+				}
+			})
+			setUpvote(count);
+		} catch (err) {
+			console.log('error fetching todos', err);
+		}
+	}
+
 	return (
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
 					<ArrowUpIcon className="voteButtons hover:text-blue-400" />
-					<span className="text-black font-bold text-xs">0</span>
+					<span className="text-black font-bold text-xs">{upvote}</span>
 					<ArrowDownIcon className="voteButtons hover:text-blue-400" />
 				</div>
 
