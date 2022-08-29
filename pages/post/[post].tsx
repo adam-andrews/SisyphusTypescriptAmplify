@@ -12,35 +12,24 @@ import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
 import { commentByPostId, getPost } from '../../src/graphql/queries';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { useUser } from '../../context/AuthContext';
+import { createComment } from '../../src/graphql/mutations';
 
 type FormData = {
 	comment: string;
 };
 
-const post1 = {
-	id: 1,
-	title: 'This is a title',
-	body: 'This is a body',
-	image:
-		'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-	username: 'username',
-	subreddit: [{ topic: 'react' }],
-	created_at: '2020-01-01',
-	comments: ['This is a comment'],
-	votes: 0,
-	subreddit_id: 1,
-	subreddits: ['react'],
-};
-
 export default function PostPage() {
 	const [postData, setPostData] = useState<any[]>();
+	const { user, setUser } = useUser();
+
 	const {
 		query: { post },
 	} = useRouter();
 	useEffect(() => {
 		fetchPosts();
 	}, []);
-	 console.log(postData)
+	console.log(postData);
 	async function fetchPosts() {
 		try {
 			const { data } = (await API.graphql({
@@ -72,7 +61,23 @@ export default function PostPage() {
 	//   const post: Post = data?.getPostListByPostId
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
-		console.log(data);
+		console.log('Comment Data', data);
+		const commentData = {
+			content: data.comment,
+			postID: post,
+			username: user.username,
+		};
+		try {
+			const addComment = (await API.graphql({
+				query: createComment,
+				variables: { input: commentData },
+			})) as {
+				data: any;
+				errors: any[];
+			};
+		} catch (error) {
+			console.log('error', error);
+		}
 
 		const notification = toast.loading('Posting your comment...');
 
@@ -99,7 +104,7 @@ export default function PostPage() {
 
 					<div className="-mt-1 rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16">
 						<p className="text-sm">
-							Comment as <span className="text-red-500">"Adam"</span>
+							Comment as <span className="text-red-500">{user.username}</span>
 						</p>
 
 						<form
@@ -127,7 +132,7 @@ export default function PostPage() {
 
 					<div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10">
 						<hr className="py-2" />
-					    
+
 						{postData?.Comments.items.map((comment) => (
 							<div
 								className="relative flex items-center space-x-2 space-y-5"

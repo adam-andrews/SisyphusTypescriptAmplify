@@ -28,6 +28,9 @@ export default function SubredditFeed({ topic }: FeedProps) {
 			};
 
 			console.log('subredditRequest', subredditRequest);
+			setPosts(subredditRequest.data.postBySubredditName.items);
+
+
 
 			// console.log('Subreddit feed All posts', data.postBySubredditName);
 			// console.log('Subreddit feed all Posts', data.data);

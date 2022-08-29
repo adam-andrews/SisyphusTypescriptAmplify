@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -14,7 +14,6 @@ import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import { Post as PostType } from '../src/API';
-
 
 interface PostProps {
 	post: PostType;
@@ -34,7 +33,7 @@ export default function Post({ post }: PostProps) {
 				<div className="p-3 pb-1">
 					{/* Header */}
 					<header className="flex items-center space-x-2">
-						<Avatar seed={post.username}/>
+						<Avatar seed={post.username} />
 						<p className="text-xs text-gray-400 ">
 							<Link href={`/subreddit`}>
 								<span className="font-bold text-black hover:text-red-400 hover:underline">
@@ -60,19 +59,19 @@ export default function Post({ post }: PostProps) {
 					<div className="flex space-x-4 text-gray-400 mt-2">
 						<div className="postButtons">
 							<ChatAltIcon className="h-6 w-6" />
-							<p>{post.Comments?"Hello":0} Comments</p>
+							<p>{post.Comments?.items ? 1 : '0'} Comments</p>
 						</div>
 						<div className="postButtons">
 							<GiftIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
+							<p className="hidden sm:inline">{post.Comments ? '1' : 0}</p>
 						</div>
 						<div className="postButtons">
 							<ShareIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
+							<p className="hidden sm:inline">{post.Comments ? '1' : 0}</p>
 						</div>
 						<div className="postButtons">
 							<BookmarkIcon className="h-6 w-6" />
-							<p className="hidden sm:inline">{post.Comments?"1":0}</p>
+							<p className="hidden sm:inline">{post.Comments ? '1' : 0}</p>
 						</div>
 						<div className="postButtons">
 							<DotsCircleHorizontalIcon className="h-6 w-6" />
