@@ -123,7 +123,7 @@ function PostBox({ subreddit }: Props) {
 								className="m-2 flex-1 p-2 outline-none"
 								{...register('subreddit', { required: true })}
 								type="text"
-								placeholder="i.e Next.js"
+								placeholder="i.e Cats"
 							/>
 						</div>
 					)}

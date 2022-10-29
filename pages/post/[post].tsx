@@ -20,7 +20,7 @@ type FormData = {
 };
 
 export default function PostPage() {
-	const [postData, setPostData] = useState<any[]>();
+	const [postData, setPostData] = useState<Post[]>();
 	const { user, setUser } = useUser();
 
 	const {
@@ -36,7 +36,7 @@ export default function PostPage() {
 				query: getPost,
 				variables: { id: post },
 			})) as {
-				data: any;
+				data: Post[];
 				errors: any[];
 			};
 

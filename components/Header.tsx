@@ -17,12 +17,8 @@ import {
 } from '@heroicons/react/outline';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
-import { useUser } from '../context/AuthContext';
 
-function Header() {
-	console.log('Header');
-	const { user, setUser } = useUser();
-	console.log('user', user?.getUsername());
+function Header() {	
 	return (
 		<div className="flex sticky top-0 z-50 bg-white px-4 py-2 shadow-sm">
 			<div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
