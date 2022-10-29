@@ -28,7 +28,7 @@ const Home: NextPage = () => {
 			{({ signOut, user }) => (
 				<div className="max-w-5xl my-7 mx-auto">
 					<Head>
-						<title>Reddit 2.0 Clone</title>
+						<title>Sisyphus</title>
 					</Head>
 					{user && <PostBox />}
 					<div className="flex">

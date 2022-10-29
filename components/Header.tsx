@@ -15,19 +15,18 @@ import {
 	SpeakerphoneIcon,
 	VideoCameraIcon,
 } from '@heroicons/react/outline';
+
+import Logo from '../images/Logo.png';
+import Logomark from '../images/Logomark.png';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
 
-function Header() {	
+function Header() {
 	return (
 		<div className="flex sticky top-0 z-50 bg-white px-4 py-2 shadow-sm">
 			<div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
 				<Link href="/">
-					<Image
-						src="https://links.papareact.com/fqy"
-						objectFit="contain"
-						layout="fill"
-					/>
+					<Image src={Logo.src} objectFit="contain" layout="fill" />
 				</Link>
 			</div>
 
@@ -42,7 +41,7 @@ function Header() {
 				<input
 					className="flex-1 bg-transparent"
 					type="text"
-					placeholder="Search Reddit"
+					placeholder="Search Sisyphus"
 				/>
 				<button type="submit" hidden></button>
 			</form>
@@ -63,12 +62,7 @@ function Header() {
 			{/* {Sign in Sign Out} */}
 			<div className="hidden items-center lg:flex space-x-2 border border-gray-100 p-2 cursor-pointer">
 				<div className="relative h-5 w-5 flex-shrink-0 cursor-pointer">
-					<Image
-						objectFit="contain"
-						src="https://links.papareact.com/23l"
-						layout="fill"
-						alt=""
-					/>
+					<Image objectFit="contain" src={Logomark.src} layout="fill" alt="" />
 				</div>
 				<p className="text-gray-400"> Sign In</p>
 			</div>
