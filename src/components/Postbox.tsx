@@ -4,14 +4,10 @@ import { PhotographIcon, LinkIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../context/AuthContext';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import {
-	Post as PostType,
-	CreatePostInput,
-	ListSubredditsQuery,
-} from '../src/API';
-import { createPost } from '../src/graphql/mutations';
-import { getSubreddit, subredditBySubredditName } from '../src/graphql/queries';
-import awsExports from '../src/aws-exports';
+import { Post as PostType, CreatePostInput, ListSubredditsQuery } from '../API';
+import { createPost } from '../graphql/mutations';
+import { getSubreddit, subredditBySubredditName } from '../graphql/queries';
+import awsExports from '../aws-exports';
 Amplify.configure(awsExports);
 
 type FormData = {

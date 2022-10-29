@@ -13,9 +13,9 @@ import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
-import { Post as PostType } from '../src/API';
+import { Post as PostType } from '../API';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import { listVotes } from '../src/graphql/queries';
+import { listVotes } from '../graphql/queries';
 
 interface PostProps {
 	post: PostType;

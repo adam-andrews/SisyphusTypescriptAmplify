@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
-import { listPosts, postBySubredditName } from '../src/graphql/queries';
-import awsExports from '../src/aws-exports';
+import { listPosts, postBySubredditName } from '../graphql/queries';
+import awsExports from '../aws-exports';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import { Post as PostType, ListPostsQuery } from '../src/API';
+import { Post as PostType, ListPostsQuery } from '../API';
 Amplify.configure(awsExports);
 
 interface FeedProps {
@@ -29,8 +29,6 @@ export default function SubredditFeed({ topic }: FeedProps) {
 
 			console.log('subredditRequest', subredditRequest);
 			setPosts(subredditRequest.data.postBySubredditName.items);
-
-
 
 			// console.log('Subreddit feed All posts', data.postBySubredditName);
 			// console.log('Subreddit feed all Posts', data.data);

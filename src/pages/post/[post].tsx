@@ -10,10 +10,10 @@ import { toast } from 'react-hot-toast';
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
-import { commentByPostId, getPost } from '../../src/graphql/queries';
+import { commentByPostId, getPost } from '../../graphql/queries';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { useUser } from '../../context/AuthContext';
-import { createComment } from '../../src/graphql/mutations';
+import { createComment } from '../../graphql/mutations';
 
 type FormData = {
 	comment: string;

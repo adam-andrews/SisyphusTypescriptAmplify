@@ -7,7 +7,7 @@ import PostBox from '../components/Postbox';
 import SubredditRow from '../components/SubredditRow';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 
-import { createSubreddit } from '../src/graphql/mutations';
+import { createSubreddit } from '../graphql/mutations';
 const subreddit = {
 	id: 1,
 	topic: 'react',
@@ -18,7 +18,7 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-import awsExports from '../src/aws-exports';
+import awsExports from '../aws-exports';
 Amplify.configure(awsExports);
 const Home: NextPage = () => {
 	const subreddits = ['Cats', 'Dogs', 'Shrimp', 'programming'];
