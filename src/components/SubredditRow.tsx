@@ -5,12 +5,10 @@ import Link from 'next/link';
 
 //Amplify
 
-
 interface SubredditRowProps {
 	index: number;
 	topic: string;
 }
-
 
 export default function SubredditRow({ index, topic }: SubredditRowProps) {
 	return (
@@ -18,9 +16,7 @@ export default function SubredditRow({ index, topic }: SubredditRowProps) {
 			<p className="font-medium">{index + 1}</p>
 			<ChevronUpIcon className="h-4 w-4 flex-shrink-0 text-green-400" />
 			<Avatar seed={`/subreddit/${topic}`} />
-			<p className="flex-1 truncate font-medium">
-				r/{topic}
-			</p>
+			<p className="flex-1 truncate font-medium">r/{topic}</p>
 			<Link href={`/subreddit/${topic}`}>
 				<span className="cursor-pointer rounded-full bg-blue-500 px-3 text-white">
 					<span className="font-medium">Join</span>

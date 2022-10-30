@@ -13,7 +13,7 @@ import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
-import { Post as PostType } from '../API';
+import { ListVotesQuery, Post as PostType } from '../API';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
 
@@ -29,20 +29,20 @@ export default function Post({ post }: PostProps) {
 	async function fetchUpvote() {
 		try {
 			const { data } = (await API.graphql({ query: listVotes })) as {
-				data: any;
+				data: ListVotesQuery;
 				errors: any[];
 			};
 			console.log('allUpvotes', data);
 			//loops through all votes and adds up the upvotes and subtracts the downvotes
 			var count = 0;
-			const mapVotes = data.listVotes.items.map((vote: { vote: string }) => {
-				console.log('vote', vote.vote);
-				if (vote.vote === 'yes') {
-					count += 1;
-				} else {
-					count -= 1;
-				}
-			});
+			// const mapVotes = data.listVotes.items.map((vote: { vote: string }) => {
+			// 	console.log('vote', vote.vote);
+			// 	if (vote.vote === 'yes') {
+			// 		count += 1;
+			// 	} else {
+			// 		count -= 1;
+			// 	}
+			// });
 			setUpvote(count);
 		} catch (err) {
 			console.log('error fetching todos', err);

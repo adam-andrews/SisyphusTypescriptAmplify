@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Post from '../../components/Post';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
@@ -100,6 +100,7 @@ export default function PostPage() {
 
 	return (
 		<div>
+			<Toaster />
 			{postData && (
 				<div className="mx-auto my-7 max-w-5xl">
 					<Post post={postData} />

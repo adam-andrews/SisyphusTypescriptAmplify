@@ -21,7 +21,7 @@ import '@aws-amplify/ui-react/styles.css';
 import awsExports from '../aws-exports';
 Amplify.configure(awsExports);
 const Home: NextPage = () => {
-	const subreddits = ['Cats', 'Dogs', 'Shrimp', 'programming'];
+	const subreddits = ['Cats', 'Dogs', 'Shrimp', 'Programming'];
 
 	return (
 		<Authenticator>

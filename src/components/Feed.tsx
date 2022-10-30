@@ -13,8 +13,13 @@ interface FeedProps {
 
 export default function Feed({ topic }: FeedProps) {
 	const [posts, setPosts] = useState<PostType[]>();
-	const [comments, setComments] = useState<any[]>();
 
+	function filterPostsByDate(posts: PostType[]) {
+		const sortedPosts = posts?.sort((a, b) => {
+			return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+		});
+		setPosts(sortedPosts as PostType[]);
+	}
 	async function fetchPosts() {
 		try {
 			const { data } = (await API.graphql({ query: listPosts })) as {
@@ -22,7 +27,8 @@ export default function Feed({ topic }: FeedProps) {
 				errors: any[];
 			};
 			if (!data || !data.listPosts) return;
-			setPosts(data.listPosts.items as PostType[]);
+
+			filterPostsByDate(data.listPosts.items as PostType[]);
 		} catch (err) {
 			console.log('error fetching todos', err);
 		}
@@ -40,12 +46,9 @@ export default function Feed({ topic }: FeedProps) {
 
 	return (
 		<div className="mt-5 space-y-4">
-			{posts?.map(
-				(post, index) => (
-					console.log('post', post.Comments?.items),
-					(<Post key={index} post={post} />)
-				)
-			)}
+			{posts?.map((post, index) => (
+				<Post key={index} post={post} />
+			))}
 		</div>
 	);
 }
