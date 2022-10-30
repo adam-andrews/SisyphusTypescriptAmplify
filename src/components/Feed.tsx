@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import { listPosts, postBySubredditName } from '../graphql/queries';
 import awsExports from '../aws-exports';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API, graphqlOperation, DataStore } from 'aws-amplify';
 import { Post as PostType, ListPostsQuery } from '../API';
+import { Post as PostModel, Comment as CommentModel } from '../models';
+
 Amplify.configure(awsExports);
 
 interface FeedProps {
@@ -11,23 +13,30 @@ interface FeedProps {
 }
 
 export default function Feed({ topic }: FeedProps) {
-	const [posts, setPosts] = useState<PostType[]>();
+	const [posts, setPosts] = useState<PostModel[]>();
+	const [comments, setComments] = useState<CommentModel[]>();
 	useEffect(() => {
 		fetchPosts();
+		fetchComments();
 	}, []);
 	console.log(topic);
+	async function fetchComments() {
+		try {
+			const allComments = await DataStore.query(CommentModel);
+			setComments(allComments);
+			console.log('allComments', allComments);
+		} catch (err) {
+			console.log('error fetching todos', err);
+		}
+	}
 	async function fetchPosts() {
 		try {
-			const allPosts = (await API.graphql({ query: listPosts })) as {
-				data: any;
-				errors: any[];
-			};
+			const allPosts = await DataStore.query(PostModel);
+			setPosts(allPosts);
 
-			console.log('All posts', allPosts);
-			console.log('all Posts data', allPosts.data);
-			if (allPosts.data.listPosts.items) {
-				setPosts(allPosts.data.listPosts.items as PostType[]);
-			}
+			// if (allPosts.data.listPosts.items) {
+			// 	setPosts(allPosts.data.listPosts.items as PostType[]);
+			// }
 		} catch (err) {
 			console.log('error fetching todos', err);
 		}
@@ -35,9 +44,11 @@ export default function Feed({ topic }: FeedProps) {
 
 	return (
 		<div className="mt-5 space-y-4">
-			{posts?.map((post, index) => (
-				<Post key={index} post={post} />
-			))}
+			{posts?.map(
+				(post, index) => (
+					console.log('post', post), (<Post key={index} post={post} />)
+				)
+			)}
 		</div>
 	);
 }

@@ -11,16 +11,16 @@ import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
 import { commentByPostId, getPost } from '../../graphql/queries';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API, graphqlOperation, DataStore } from 'aws-amplify';
 import { useUser } from '../../context/AuthContext';
 import { createComment } from '../../graphql/mutations';
-
+import { Post as PostModel } from '../../models';
 type FormData = {
 	comment: string;
 };
 
 export default function PostPage() {
-	const [postData, setPostData] = useState<Post[]>();
+	const [postData, setPostData] = useState<PostModel>();
 	const { user, setUser } = useUser();
 
 	const {
@@ -32,15 +32,12 @@ export default function PostPage() {
 	console.log(postData);
 	async function fetchPosts() {
 		try {
-			const { data } = (await API.graphql({
-				query: getPost,
-				variables: { id: post },
-			})) as {
-				data: Post[];
-				errors: any[];
-			};
+			const post = await DataStore.query(
+				PostModel,
+				'f3b2b0b0-3b1c-4b1f-8c1c-8c1c8c1c8c1c'
+			);
 
-			setPostData(data.getPost);
+			setPostData(post);
 		} catch (error) {
 			console.log('error', error);
 		}

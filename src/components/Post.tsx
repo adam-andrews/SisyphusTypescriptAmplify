@@ -14,21 +14,20 @@ import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import { Post as PostType } from '../API';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API, graphqlOperation, DataStore } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
+import { Comment as CommentModel, Post as PostModel } from '../models';
 
 interface PostProps {
-	post: PostType;
+	post: PostModel;
 }
 
 export default function Post({ post }: PostProps) {
 	const [upvote, setUpvote] = useState(0);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
+	const [comments, setComments] = useState<CommentModel[]>([]);
 
-	useEffect(() => {
-		fetchUpvote();
-	});
-
+	useEffect(() => {});
 	async function fetchUpvote() {
 		try {
 			const { data } = (await API.graphql({ query: listVotes })) as {
@@ -97,7 +96,8 @@ export default function Post({ post }: PostProps) {
 								</span>
 							</Link>{' '}
 							* Posted bt u/
-							{post.username} <TimeAgo date={post.createdAt} />
+							{post.username}{' '}
+							<TimeAgo date={post.createdAt ? post.createdAt : ''} />
 						</p>
 					</header>
 
