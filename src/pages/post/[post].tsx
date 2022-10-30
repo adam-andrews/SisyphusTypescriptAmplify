@@ -11,16 +11,20 @@ import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import Jelly from '@uiball/loaders';
 import { commentByPostId, getPost } from '../../graphql/queries';
-import { Amplify, API, graphqlOperation, DataStore } from 'aws-amplify';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { useUser } from '../../context/AuthContext';
 import { createComment } from '../../graphql/mutations';
-import { Post as PostModel } from '../../models';
+import {
+	Post as PostData,
+	GetPostQuery,
+	Comment as CommentData,
+} from '../../API';
 type FormData = {
 	comment: string;
 };
 
 export default function PostPage() {
-	const [postData, setPostData] = useState<PostModel>();
+	const [postData, setPostData] = useState<PostData>();
 	const { user, setUser } = useUser();
 
 	const {
@@ -32,18 +36,19 @@ export default function PostPage() {
 	console.log(postData);
 	async function fetchPosts() {
 		try {
-			const post = await DataStore.query(
-				PostModel,
-				'f3b2b0b0-3b1c-4b1f-8c1c-8c1c8c1c8c1c'
-			);
+			const { data } = (await API.graphql({
+				query: getPost,
+				variables: { id: post },
+			})) as {
+				data: GetPostQuery;
+				errors: any[];
+			};
 
-			setPostData(post);
+			setPostData(data.getPost as PostData);
 		} catch (error) {
 			console.log('error', error);
 		}
 	}
-	console.log('postsData', postData);
-
 	//   const { data: session } = useSession()
 	//   const [addComment] = useMutation(ADD_COMMENT, {
 	//     refetchQueries: [GET_POST_BY_POST_ID, 'getPostListByPostId'],
@@ -130,27 +135,29 @@ export default function PostPage() {
 					<div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10">
 						<hr className="py-2" />
 
-						{postData?.Comments.items.map((comment: any) => (
-							<div
-								className="relative flex items-center space-x-2 space-y-5"
-								key={comment.id}
-							>
-								<hr className="absolute top-10 h-16 border left-7 z-0" />
-								<div className="z-50">
-									<Avatar seed={comment.username} />
-								</div>
+						{postData.Comments
+							? postData?.Comments.items.map((comment: any) => (
+									<div
+										className="relative flex items-center space-x-2 space-y-5"
+										key={comment.id}
+									>
+										<hr className="absolute top-10 h-16 border left-7 z-0" />
+										<div className="z-50">
+											<Avatar seed={comment.username} />
+										</div>
 
-								<div className="flex flex-col">
-									<p className="py-2 text-xs text-gray-400">
-										<span className="font-semibold text-gray-600">
-											{comment.username}
-										</span>{' '}
-										· <TimeAgo date={comment.createdAt} />
-									</p>
-									<p>{comment.content}</p>
-								</div>
-							</div>
-						))}
+										<div className="flex flex-col">
+											<p className="py-2 text-xs text-gray-400">
+												<span className="font-semibold text-gray-600">
+													{comment.username}
+												</span>{' '}
+												· <TimeAgo date={comment.createdAt} />
+											</p>
+											<p>{comment.content}</p>
+										</div>
+									</div>
+							  ))
+							: null}
 					</div>
 				</div>
 			)}

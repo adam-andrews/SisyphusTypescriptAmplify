@@ -14,19 +14,18 @@ import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
 import { Post as PostType } from '../API';
-import { Amplify, API, graphqlOperation, DataStore } from 'aws-amplify';
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
 import { Comment as CommentModel, Post as PostModel } from '../models';
 
 interface PostProps {
-	post: PostModel;
+	post: PostType;
 }
 
 export default function Post({ post }: PostProps) {
 	const [upvote, setUpvote] = useState(0);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
 	const [comments, setComments] = useState<CommentModel[]>([]);
-
 	useEffect(() => {});
 	async function fetchUpvote() {
 		try {
