@@ -4,7 +4,6 @@ import { listPosts, postBySubredditName } from '../graphql/queries';
 import awsExports from '../aws-exports';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { Post as PostType, ListPostsQuery } from '../API';
-import { Post as PostModel, Comment as CommentModel } from '../models';
 
 Amplify.configure(awsExports);
 
@@ -14,7 +13,7 @@ interface FeedProps {
 
 export default function Feed({ topic }: FeedProps) {
 	const [posts, setPosts] = useState<PostType[]>();
-	const [comments, setComments] = useState<CommentModel[]>();
+	const [comments, setComments] = useState<any[]>();
 
 	async function fetchPosts() {
 		try {
