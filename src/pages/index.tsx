@@ -16,6 +16,7 @@ const subreddit = {
 //Amplify CreateSubredditInput
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
+import Header from '../components/Header';
 import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from '../aws-exports';
@@ -30,6 +31,7 @@ const Home: NextPage = () => {
 					<Head>
 						<title>Sisyphus</title>
 					</Head>
+
 					{user && <PostBox />}
 					<div className="flex">
 						<Feed />
