@@ -13,7 +13,11 @@ import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
 import { Auth } from 'aws-amplify';
-import { ListVotesQuery, Post as PostType } from '../API';
+import {
+	ListVotesQuery,
+	Post as PostType,
+	Comment as CommentType,
+} from '../API';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
 
@@ -24,7 +28,7 @@ interface PostProps {
 export default function Post({ post }: PostProps) {
 	const [upvote, setUpvote] = useState(0);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
-	const [comments, setComments] = useState<any[]>([]);
+	const [comments, setComments] = useState<CommentType[]>([]);
 	useEffect(() => {});
 	async function fetchUpvote() {
 		try {
@@ -73,12 +77,18 @@ export default function Post({ post }: PostProps) {
 				{/* Votes */}
 				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
 					<ArrowUpIcon
-						onClick={upvotePost}
+						onClick={(event) => {
+							event.preventDefault();
+							upvotePost();
+						}}
 						className="voteButtons hover:text-blue-400"
 					/>
 					<span className="text-black font-bold text-xs">{upvote}</span>
 					<ArrowDownIcon
-						onClick={downvotePost}
+						onClick={(event) => {
+							event.preventDefault();
+							downvotePost();
+						}}
 						className="voteButtons hover:text-blue-400"
 					/>
 				</div>

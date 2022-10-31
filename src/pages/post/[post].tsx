@@ -15,6 +15,12 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { useUser } from '../../context/AuthContext';
 import { createComment } from '../../graphql/mutations';
 import {
+	Post as PostType,
+	ListPostsQuery,
+	OnCreatePostSubscription,
+} from '../../API';
+import { onCreatePost } from '../../graphql/subscriptions';
+import {
 	Post as PostData,
 	GetPostQuery,
 	Comment as CommentData,
@@ -23,18 +29,25 @@ type FormData = {
 	comment: string;
 };
 
+interface OnCreatePostSubscriptionProps {
+	provider: any;
+	value: {
+		data: OnCreatePostSubscription;
+	};
+}
 export default function PostPage() {
 	const [postData, setPostData] = useState<PostData>();
 	const { user, setUser } = useUser();
-
 	const {
 		query: { post },
 	} = useRouter();
+
 	useEffect(() => {
-		fetchPosts();
+		fetchPostsByID();
 	}, []);
+
 	console.log(postData);
-	async function fetchPosts() {
+	async function fetchPostsByID() {
 		try {
 			const { data } = (await API.graphql({
 				query: getPost,

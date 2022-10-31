@@ -27,7 +27,7 @@ function Header() {
 			<div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
 				<Link href="/" className="">
 					<a>
-						<Image src={Logo.src} height={35} width={75} />
+						<Image src={Logo.src} height={35} width={80} />
 						<span className="sr-only">Sisyphus</span>
 					</a>
 				</Link>
