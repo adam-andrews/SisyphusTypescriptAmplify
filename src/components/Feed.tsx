@@ -34,6 +34,7 @@ export default function Feed({ topic }: FeedProps) {
 			const sb = subscription.subscribe({
 				next: ({ provider, value }: OnCreatePostSubscriptionProps) => {
 					const { data } = value;
+					console.log('data changed', data);
 					setPosts((prevPosts: any) => {
 						if (!prevPosts) return [data.onCreatePost];
 						return [data.onCreatePost, ...prevPosts];

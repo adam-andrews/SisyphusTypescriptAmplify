@@ -16,15 +16,14 @@ import { useUser } from '../../context/AuthContext';
 import { createComment } from '../../graphql/mutations';
 import {
 	Post as PostType,
+	Comment as CommentType,
 	ListPostsQuery,
 	OnCreatePostSubscription,
-} from '../../API';
-import { onCreatePost } from '../../graphql/subscriptions';
-import {
-	Post as PostData,
+	OnCreateCommentSubscription,
 	GetPostQuery,
-	Comment as CommentData,
 } from '../../API';
+import { onCreateComment, onCreatePost } from '../../graphql/subscriptions';
+
 type FormData = {
 	comment: string;
 };
@@ -32,20 +31,50 @@ type FormData = {
 interface OnCreatePostSubscriptionProps {
 	provider: any;
 	value: {
-		data: OnCreatePostSubscription;
+		data: OnCreateCommentSubscription;
 	};
 }
 export default function PostPage() {
-	const [postData, setPostData] = useState<PostData>();
+	const [postData, setPostData] = useState<PostType>();
 	const { user, setUser } = useUser();
 	const {
 		query: { post },
 	} = useRouter();
+	console.log('post Comments');
 
 	useEffect(() => {
 		fetchPostsByID();
 	}, []);
 
+	useEffect(() => {
+		// Creates a subscription to the onCreatePost GraphQL subscription based on post ID
+		const subscription = API.graphql({
+			query: onCreateComment,
+			variables: {
+				id: post,
+			},
+		});
+		if ('subscribe' in subscription) {
+			const sb = subscription.subscribe({
+				next: ({ provider, value }: OnCreatePostSubscriptionProps) => {
+					const { data } = value;
+
+					if (!data.onCreateComment) return;
+					// if there is a new post, add it to the post Comments array and then trigger refresh
+					postData?.Comments?.items?.push(data.onCreateComment);
+					setPostData(postData as PostType);
+				},
+				error: (error: any) => {
+					console.log('err at subscription to comments', error);
+				},
+			});
+			return () => {
+				if ('unsubscribe' in sb) {
+					sb.unsubscribe();
+				}
+			};
+		}
+	}, []);
 	console.log(postData);
 	async function fetchPostsByID() {
 		try {
@@ -57,7 +86,7 @@ export default function PostPage() {
 				errors: any[];
 			};
 
-			setPostData(data.getPost as PostData);
+			setPostData(data.getPost as PostType);
 		} catch (error) {
 			console.log('error', error);
 		}
@@ -87,7 +116,7 @@ export default function PostPage() {
 				query: createComment,
 				variables: { input: commentData },
 			})) as {
-				data: any;
+				data: CommentType;
 				errors: any[];
 			};
 		} catch (error) {
