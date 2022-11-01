@@ -36,17 +36,6 @@ function Upvote({ postId }: UpvoteProps) {
 			console.log('error fetching upvote', err);
 		}
 	}
-	function upvotePost() {
-		console.log('upvote');
-		if (!hasUpvoted) {
-			AddUpvote();
-			setUpvoteScore(upvoteScore + 1);
-			setHasUpvoted(true);
-		} else {
-			setUpvoteScore(upvoteScore + 2);
-		}
-	}
-
 	async function AddUpvote() {
 		try {
 			const upvote = {
@@ -59,8 +48,21 @@ function Upvote({ postId }: UpvoteProps) {
 			console.log('error creating upvote', err);
 		}
 	}
+	function upvotePost() {
+		if (!user) return;
 
-	async function downvotePost() {
+		console.log('upvote');
+		if (!hasUpvoted) {
+			AddUpvote();
+			setUpvoteScore(upvoteScore + 1);
+			setHasUpvoted(true);
+		} else {
+			setUpvoteScore(upvoteScore + 2);
+		}
+	}
+
+	function downvotePost() {
+		if (!user) return;
 		if (!hasUpvoted) {
 			setUpvoteScore(upvoteScore - 1);
 			setHasUpvoted(true);
@@ -83,7 +85,7 @@ function Upvote({ postId }: UpvoteProps) {
 					event.preventDefault();
 					downvotePost();
 				}}
-				className="voteButtons hover:text-blue-400"
+				className="voteButtons hover:text-red-400"
 			/>
 		</div>
 	);

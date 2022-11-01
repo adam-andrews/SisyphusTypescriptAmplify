@@ -109,7 +109,7 @@ export default function PostPage() {
 		const commentData = {
 			content: data.comment,
 			postID: post,
-			username: user.username,
+			username: user?.username,
 		};
 		try {
 			const addComment = (await API.graphql({
@@ -140,7 +140,7 @@ export default function PostPage() {
 
 					<div className="-mt-1 rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16">
 						<p className="text-sm">
-							Comment as <span className="text-red-500">{user.username}</span>
+							Comment as <span className="text-red-500">{user?.username}</span>
 						</p>
 
 						<form

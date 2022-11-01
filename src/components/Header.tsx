@@ -15,13 +15,21 @@ import {
 	SpeakerphoneIcon,
 	VideoCameraIcon,
 } from '@heroicons/react/outline';
-
+import Avatar from './Avatar';
 import Logo from '../images/Logo.png';
 import Logomark from '../images/Logomark.png';
 import { Auth } from 'aws-amplify';
 import Link from 'next/link';
-
+import { useUser } from '../context/AuthContext';
 function Header() {
+	async function signOut() {
+		try {
+			await Auth.signOut();
+		} catch (error) {
+			console.log('error signing out: ', error);
+		}
+	}
+	const { user } = useUser();
 	return (
 		<div className="flex sticky top-0 z-50 bg-white px-4 py-2 shadow-sm">
 			<div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
@@ -62,13 +70,39 @@ function Header() {
 				<MenuIcon className="icon" />
 			</div>
 
-			{/* {Sign in Sign Out} */}
-			<div className="hidden items-center lg:flex space-x-2 border border-gray-100 p-2 cursor-pointer">
-				<div className="relative h-5 w-5 flex-shrink-0 cursor-pointer">
-					<Image objectFit="contain" src={Logomark.src} layout="fill" alt="" />
+			{user ? (
+				<div
+					className="hidden items-center lg:flex space-x-2 border border-gray-100 p-2 cursor-pointer"
+					onClick={signOut}
+				>
+					<div className="relative h-5 w-5 flex-shrink-0 cursor-pointer">
+						<Image
+							src={`https://avatars.dicebear.com/api/open-peeps/${
+								user.username || 'placeholder'
+							}.svg`}
+							alt="avatar img"
+							layout="fill"
+						/>
+					</div>
+					<p className="text-gray-400"> sign out</p>
 				</div>
-				<p className="text-gray-400"> Sign In</p>
-			</div>
+			) : (
+				<Link href="/signin">
+					<a>
+						<div className="hidden items-center lg:flex space-x-2 border border-gray-100 p-2 cursor-pointer">
+							<div className="relative h-5 w-5 flex-shrink-0 cursor-pointer">
+								<Image
+									objectFit="contain"
+									src={Logomark.src}
+									layout="fill"
+									alt=""
+								/>
+							</div>
+							<p className="text-gray-400"> Sign In</p>
+						</div>
+					</a>
+				</Link>
+			)}
 		</div>
 	);
 }
