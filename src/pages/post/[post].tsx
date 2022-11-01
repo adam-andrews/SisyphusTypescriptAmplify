@@ -1,6 +1,3 @@
-// import { useMutation, useQuery } from '@apollo/client'
-// import { useSession } from 'next-auth/react'
-// import { ADD_COMMENT, GET_POST_BY_POST_ID } from '../../graphql/queries'
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Post from '../../components/Post';
@@ -39,7 +36,6 @@ export default function PostPage() {
 	const [postData, setPostData] = useState<PostType>();
 	const [comments, setComments] = useState<CommentType[]>();
 
-	console.log('comments', comments);
 	const { user, setUser } = useUser();
 	const {
 		query: { post },
@@ -47,7 +43,7 @@ export default function PostPage() {
 
 	useEffect(() => {
 		fetchPostByID();
-	}, []);
+	}, [post]);
 
 	useEffect(() => {
 		// Creates a subscription to the onCreatePost GraphQL subscription based on post ID
@@ -79,8 +75,16 @@ export default function PostPage() {
 			};
 		}
 	});
+	//Filters comments based on their date created and sets the state to the sorted comments
+	function filterCommentsByDate(comments: CommentType[]) {
+		const sortedComments = comments?.sort((a, b) => {
+			return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+		});
+		setComments(sortedComments as CommentType[]);
+	}
 
 	async function fetchPostByID() {
+		if (!post) return;
 		try {
 			const { data } = (await API.graphql({
 				query: getPost,
@@ -91,7 +95,8 @@ export default function PostPage() {
 			};
 			console.log('data.getPost', data.getPost);
 			setPostData(data.getPost as PostType);
-			setComments(data.getPost?.Comments?.items as CommentType[]);
+			filterCommentsByDate(data.getPost?.Comments?.items as CommentType[]);
+			console.log(data.getPost?.Votes?.items);
 		} catch (error) {
 			console.log('error', error);
 		}
@@ -144,15 +149,15 @@ export default function PostPage() {
 						>
 							<textarea
 								{...register('comment')}
-								// disabled={!session}
+								disabled={!user}
 								className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50 resize-none"
 								placeholder={
-									true ? 'What are your thoughts?' : 'Please sign in to comment'
+									user ? 'What are your thoughts?' : 'Please sign in to comment'
 								}
 							/>
 
 							<button
-								// disabled={!session}
+								disabled={!user}
 								type="submit"
 								className="rounded-full bg-red-500 p-3 font-semibold text-white disabled:bg-gray-200 hover:bg-red-400 transition-colors"
 							>

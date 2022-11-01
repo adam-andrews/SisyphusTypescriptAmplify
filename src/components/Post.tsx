@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
+import Upvote from './Upvote';
 import {
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -27,62 +28,14 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
-	const [upvote, setUpvote] = useState(0);
-	const [hasUpvoted, setHasUpvoted] = useState(false);
 	const [comments, setComments] = useState<CommentType[]>([]);
 	const { user, setUser } = useUser();
-	console.log();
-
-	useEffect(() => {
-		fetchUpvote();
-	});
-	async function fetchUpvote() {
-		try {
-			console.log('fetch');
-		} catch (err) {
-			console.log('error fetching todos', err);
-		}
-	}
-
-	async function upvotePost() {
-		if (!hasUpvoted) {
-			setUpvote(upvote + 1);
-			setHasUpvoted(true);
-		} else {
-			setUpvote(upvote + 2);
-		}
-	}
-
-	async function downvotePost() {
-		if (!hasUpvoted) {
-			setUpvote(upvote - 1);
-			setHasUpvoted(true);
-		} else {
-			setUpvote(upvote - 2);
-		}
-	}
 
 	return (
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
-				<div className="flex flex-col w-12 items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-					<ArrowUpIcon
-						onClick={(event) => {
-							event.preventDefault();
-							upvotePost();
-						}}
-						className="voteButtons hover:text-blue-400"
-					/>
-					<span className="text-black font-bold text-xs">{upvote}</span>
-					<ArrowDownIcon
-						onClick={(event) => {
-							event.preventDefault();
-							downvotePost();
-						}}
-						className="voteButtons hover:text-blue-400"
-					/>
-				</div>
+				<Upvote />
 
 				<div className="p-3 pb-1">
 					{/* Header */}
