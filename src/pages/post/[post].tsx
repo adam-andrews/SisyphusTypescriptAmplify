@@ -21,6 +21,7 @@ import {
 	OnCreatePostSubscription,
 	OnCreateCommentSubscription,
 	GetPostQuery,
+	CreateCommentInput,
 } from '../../API';
 import { onCreateComment, onCreatePost } from '../../graphql/subscriptions';
 
@@ -28,7 +29,7 @@ type FormData = {
 	comment: string;
 };
 
-interface OnCreatePostSubscriptionProps {
+interface OnCreateCommentSubscriptionProps {
 	provider: any;
 	value: {
 		data: OnCreateCommentSubscription;
@@ -36,14 +37,16 @@ interface OnCreatePostSubscriptionProps {
 }
 export default function PostPage() {
 	const [postData, setPostData] = useState<PostType>();
+	const [comments, setComments] = useState<CommentType[]>();
+
+	console.log('comments', comments);
 	const { user, setUser } = useUser();
 	const {
 		query: { post },
 	} = useRouter();
-	console.log('post Comments');
 
 	useEffect(() => {
-		fetchPostsByID();
+		fetchPostByID();
 	}, []);
 
 	useEffect(() => {
@@ -56,13 +59,14 @@ export default function PostPage() {
 		});
 		if ('subscribe' in subscription) {
 			const sb = subscription.subscribe({
-				next: ({ provider, value }: OnCreatePostSubscriptionProps) => {
+				next: ({ provider, value }: OnCreateCommentSubscriptionProps) => {
 					const { data } = value;
 
 					if (!data.onCreateComment) return;
-					// if there is a new post, add it to the post Comments array and then trigger refresh
-					postData?.Comments?.items?.push(data.onCreateComment);
-					setPostData(postData as PostType);
+					setComments((prevComments: any) => {
+						if (!prevComments) return [data.onCreateComment];
+						return [...prevComments, data.onCreateComment];
+					});
 				},
 				error: (error: any) => {
 					console.log('err at subscription to comments', error);
@@ -74,9 +78,9 @@ export default function PostPage() {
 				}
 			};
 		}
-	}, []);
-	console.log(postData);
-	async function fetchPostsByID() {
+	});
+
+	async function fetchPostByID() {
 		try {
 			const { data } = (await API.graphql({
 				query: getPost,
@@ -85,24 +89,15 @@ export default function PostPage() {
 				data: GetPostQuery;
 				errors: any[];
 			};
-
+			console.log('data.getPost', data.getPost);
 			setPostData(data.getPost as PostType);
+			setComments(data.getPost?.Comments?.items as CommentType[]);
 		} catch (error) {
 			console.log('error', error);
 		}
 	}
-	//   const { data: session } = useSession()
-	//   const [addComment] = useMutation(ADD_COMMENT, {
-	//     refetchQueries: [GET_POST_BY_POST_ID, 'getPostListByPostId'],
-	//   })
-	const { register, handleSubmit, setValue } = useForm<FormData>();
-	//   const { data } = useQuery(GET_POST_BY_POST_ID, {
-	//     variables: {
-	//       post_id: postId,
-	//     },
-	//   })
 
-	//   const post: Post = data?.getPostListByPostId
+	const { register, handleSubmit, setValue } = useForm<FormData>();
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
 		console.log('Comment Data', data);
@@ -116,7 +111,7 @@ export default function PostPage() {
 				query: createComment,
 				variables: { input: commentData },
 			})) as {
-				data: CommentType;
+				data: CreateCommentInput;
 				errors: any[];
 			};
 		} catch (error) {
@@ -124,15 +119,6 @@ export default function PostPage() {
 		}
 
 		const notification = toast.loading('Posting your comment...');
-
-		// await addComment({
-		//   variables: {
-		//     post_id: postId,
-		//     username: session?.user?.name,
-		//     text: data.comment,
-		//   },
-		// })
-
 		setValue('comment', '');
 
 		toast.success('Comment successfully posted!', {
@@ -178,29 +164,31 @@ export default function PostPage() {
 					<div className="-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10">
 						<hr className="py-2" />
 
-						{postData.Comments
-							? postData?.Comments.items.map((comment: any) => (
-									<div
-										className="relative flex items-center space-x-2 space-y-5"
-										key={comment.id}
-									>
-										<hr className="absolute top-10 h-16 border left-7 z-0" />
-										<div className="z-50">
-											<Avatar seed={comment.username} />
-										</div>
-
-										<div className="flex flex-col">
-											<p className="py-2 text-xs text-gray-400">
-												<span className="font-semibold text-gray-600">
-													{comment.username}
-												</span>{' '}
-												· <TimeAgo date={comment.createdAt} />
-											</p>
-											<p>{comment.content}</p>
-										</div>
+						{comments ? (
+							comments.map((comment: CommentType) => (
+								<div
+									className="relative flex items-center space-x-2 space-y-5"
+									key={comment.id}
+								>
+									<hr className="absolute top-10 h-16 border left-7 z-0" />
+									<div className="z-50">
+										<Avatar seed={comment.username} />
 									</div>
-							  ))
-							: null}
+
+									<div className="flex flex-col">
+										<p className="py-2 text-xs text-gray-400">
+											<span className="font-semibold text-gray-600">
+												{comment.username}
+											</span>{' '}
+											· <TimeAgo date={comment.createdAt} />
+										</p>
+										<p>{comment.content}</p>
+									</div>
+								</div>
+							))
+						) : (
+							<div></div>
+						)}
 					</div>
 				</div>
 			)}

@@ -27,6 +27,7 @@ export default function Feed({ topic }: FeedProps) {
 	const [posts, setPosts] = useState<PostType[]>();
 
 	useEffect(() => {
+		console.log('fetching posts');
 		const subscription = API.graphql({
 			query: onCreatePost,
 		});
@@ -59,6 +60,7 @@ export default function Feed({ topic }: FeedProps) {
 		setPosts(sortedPosts as PostType[]);
 	}
 	async function fetchPosts() {
+		console.log('fetching posts');
 		try {
 			const { data } = (await API.graphql({ query: listPosts })) as {
 				data: ListPostsQuery;
@@ -71,15 +73,8 @@ export default function Feed({ topic }: FeedProps) {
 			console.log('error fetching posts', err);
 		}
 	}
-	async function fetchComments() {
-		try {
-		} catch (err) {
-			console.log('error fetching comments', err);
-		}
-	}
 	useEffect(() => {
 		fetchPosts();
-		fetchComments();
 	}, []);
 
 	return (

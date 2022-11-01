@@ -20,6 +20,7 @@ import {
 } from '../API';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
+import { useUser } from '../context/AuthContext';
 
 interface PostProps {
 	post: PostType;
@@ -29,25 +30,15 @@ export default function Post({ post }: PostProps) {
 	const [upvote, setUpvote] = useState(0);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
 	const [comments, setComments] = useState<CommentType[]>([]);
-	useEffect(() => {});
+	const { user, setUser } = useUser();
+	console.log();
+
+	useEffect(() => {
+		fetchUpvote();
+	});
 	async function fetchUpvote() {
 		try {
-			const { data } = (await API.graphql({ query: listVotes })) as {
-				data: ListVotesQuery;
-				errors: any[];
-			};
-			console.log('allUpvotes', data);
-			//loops through all votes and adds up the upvotes and subtracts the downvotes
-			var count = 0;
-			// const mapVotes = data.listVotes.items.map((vote: { vote: string }) => {
-			// 	console.log('vote', vote.vote);
-			// 	if (vote.vote === 'yes') {
-			// 		count += 1;
-			// 	} else {
-			// 		count -= 1;
-			// 	}
-			// });
-			setUpvote(count);
+			console.log('fetch');
 		} catch (err) {
 			console.log('error fetching todos', err);
 		}
@@ -64,7 +55,7 @@ export default function Post({ post }: PostProps) {
 
 	async function downvotePost() {
 		if (!hasUpvoted) {
-			setUpvote(upvote + 1);
+			setUpvote(upvote - 1);
 			setHasUpvoted(true);
 		} else {
 			setUpvote(upvote - 2);
@@ -123,7 +114,10 @@ export default function Post({ post }: PostProps) {
 					<div className="flex space-x-4 text-gray-400 mt-2">
 						<div className="postButtons">
 							<ChatAltIcon className="h-6 w-6" />
-							<p>{post.Comments?.items ? 1 : '0'} Comments</p>
+							<p>
+								{post.Comments?.items ? post.Comments?.items.length : '0'}{' '}
+								Comments
+							</p>
 						</div>
 						<div className="postButtons">
 							<GiftIcon className="h-6 w-6" />

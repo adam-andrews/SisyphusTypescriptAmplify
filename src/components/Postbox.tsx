@@ -40,6 +40,7 @@ function PostBox({ subreddit }: Props) {
 		console.log(formData);
 		const { postTitle, postBody, postImage, subreddit } = formData;
 		// Check If subreddit exists
+		console.log('fetch subreddit');
 		const subredditRequest = (await API.graphql({
 			query: subredditBySubredditName,
 			variables: { name: subreddit },
@@ -60,7 +61,7 @@ function PostBox({ subreddit }: Props) {
 					username: user.username,
 					vote: '0',
 				};
-
+				console.log(postDetails);
 				const postCreateRequest = (await API.graphql({
 					query: createPost,
 					variables: { input: postDetails },
