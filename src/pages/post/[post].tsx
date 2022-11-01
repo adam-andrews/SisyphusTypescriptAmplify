@@ -96,7 +96,7 @@ export default function PostPage() {
 			console.log('data.getPost', data.getPost);
 			setPostData(data.getPost as PostType);
 			filterCommentsByDate(data.getPost?.Comments?.items as CommentType[]);
-			console.log(data.getPost?.Votes?.items);
+			console.log('Votey', data.getPost?.Votes?.items);
 		} catch (error) {
 			console.log('error', error);
 		}

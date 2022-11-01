@@ -2,37 +2,61 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/solid';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { voteByPostId, getPost } from '../graphql/queries';
-import { GetVoteQuery, Vote as VoteType } from '../API';
+import { GetPostQuery, Vote as VoteType } from '../API';
+import { createVote } from '../graphql/mutations';
 
-function Upvote() {
-	const [upvotes, setUpvotes] = useState();
+import { useUser } from '../context/AuthContext';
+
+interface UpvoteProps {
+	postId: string;
+}
+function Upvote({ postId }: UpvoteProps) {
+	const { user, setUser } = useUser();
+	const [upvotes, setUpvotes] = useState<VoteType[]>();
 	const [upvoteScore, setUpvoteScore] = useState(0);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
+
 	useEffect(() => {
 		fetchUpvoteByPostID();
-	});
+	}, [postId]);
 	async function fetchUpvoteByPostID() {
+		if (!postId) return;
+		console.log('fetching upvotes');
 		try {
-			const post = '54fdfbb9-8f80-4bff-bd23-fe5948d25955';
 			const { data } = (await API.graphql({
-				query: voteByPostId,
-				variables: { id: post },
+				query: getPost,
+				variables: { id: postId },
 			})) as {
-				data: GetVoteQuery;
+				data: GetPostQuery;
 				errors: any[];
 			};
-			console.log('upvote data', data);
+			if (!data.getPost || !data.getPost.Votes) return;
+			setUpvotes(data.getPost.Votes.items as VoteType[]);
 		} catch (err) {
 			console.log('error fetching upvote', err);
 		}
 	}
-	async function upvotePost() {
+	function upvotePost() {
 		console.log('upvote');
 		if (!hasUpvoted) {
+			AddUpvote();
 			setUpvoteScore(upvoteScore + 1);
 			setHasUpvoted(true);
 		} else {
 			setUpvoteScore(upvoteScore + 2);
+		}
+	}
+
+	async function AddUpvote() {
+		try {
+			const upvote = {
+				postID: postId,
+				userID: user?.username,
+				vote: 'yes',
+			};
+			await API.graphql(graphqlOperation(createVote, { input: upvote }));
+		} catch (err) {
+			console.log('error creating upvote', err);
 		}
 	}
 

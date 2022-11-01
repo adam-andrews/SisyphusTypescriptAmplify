@@ -35,7 +35,7 @@ export default function Post({ post }: PostProps) {
 		<Link href={`/post/${post.id}`}>
 			<article className="rounded-md flex cursor-pointer border border-gray-300 bg-white shadow-sm hover:border hover:border-gray-600">
 				{/* Votes */}
-				<Upvote />
+				<Upvote postId={post.id} />
 
 				<div className="p-3 pb-1">
 					{/* Header */}
