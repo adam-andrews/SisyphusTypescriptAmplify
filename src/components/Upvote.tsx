@@ -2,23 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/solid';
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { voteByPostId, getPost } from '../graphql/queries';
-import { GetPostQuery, Vote as VoteType } from '../API';
-import { createVote } from '../graphql/mutations';
+import {
+	CreateVoteInput,
+	GetPostQuery,
+	UpdateVoteMutation,
+	Vote as VoteType,
+} from '../API';
+import {
+	createVote,
+	updateVote as updateVoteQuery,
+} from '../graphql/mutations';
 
 import { useUser } from '../context/AuthContext';
 
 interface UpvoteProps {
 	postId: string;
 }
+
 function Upvote({ postId }: UpvoteProps) {
 	const { user, setUser } = useUser();
 	const [upvotes, setUpvotes] = useState<VoteType[]>();
 	const [upvoteScore, setUpvoteScore] = useState(0);
-	const [hasUpvoted, setHasUpvoted] = useState(false);
+	const [hasUpvoted, setHasUpvoted] = useState<boolean>();
+	const [userVote, setUserVote] = useState<VoteType>();
 
+	console.log('upvotes', upvotes);
 	useEffect(() => {
 		fetchUpvoteByPostID();
 	}, [postId]);
+
+	useEffect(() => {
+		hasUserUpvoted();
+		getUpvoteScore();
+	}, [upvotes]);
+
 	async function fetchUpvoteByPostID() {
 		if (!postId) return;
 		console.log('fetching upvotes');
@@ -36,38 +53,97 @@ function Upvote({ postId }: UpvoteProps) {
 			console.log('error fetching upvote', err);
 		}
 	}
-	async function AddUpvote() {
+	async function addVote(vote: string) {
 		try {
 			const upvote = {
 				postID: postId,
-				userID: user?.username,
-				vote: 'yes',
+				username: user?.username,
+				vote: vote,
 			};
-			await API.graphql(graphqlOperation(createVote, { input: upvote }));
+
+			const { data } = (await API.graphql(
+				graphqlOperation(createVote, { input: upvote })
+			)) as {
+				data: any;
+				errors: any[];
+			};
+			if (!data.createVote) return;
+			setUserVote(data.createVote);
 		} catch (err) {
 			console.log('error creating upvote', err);
 		}
 	}
-	function upvotePost() {
-		if (!user) return;
+	async function updateVote(vote: string) {
+		console.log('update vote');
+		if (!userVote) return;
+		console.log('userVote', userVote);
+		console.log('vote', userVote.id);
+		console.log('vote text', vote);
+		try {
+			const upvote = {
+				id: userVote?.id,
+				vote: vote,
+			};
 
-		console.log('upvote');
-		if (!hasUpvoted) {
-			AddUpvote();
+			const { data } = (await API.graphql(
+				graphqlOperation(updateVoteQuery, { input: upvote })
+			)) as {
+				data: UpdateVoteMutation;
+				errors: any[];
+			};
+			console.log('data of update vote', data);
+			userVote.vote = vote;
+			console.log('All Votes', upvotes);
+		} catch (err) {
+			console.log('error creating upvote', err);
+		}
+	}
+	function getUpvoteScore() {
+		let total = 0;
+		upvotes?.forEach((upvote) => {
+			if (upvote.vote === 'upvote') {
+				total++;
+			} else if (upvote.vote === 'downvote') {
+				total--;
+			}
+		});
+		setUpvoteScore(total);
+	}
+	function hasUserUpvoted() {
+		upvotes?.forEach((upvote) => {
+			if (upvote.username === user?.username) {
+				upvote.vote === 'upvote' ? setHasUpvoted(true) : setHasUpvoted(false);
+				setUserVote(upvote);
+			}
+		});
+	}
+	function upvotePost() {
+		// Stops user from upvoting if they have already upvoted and if they are not logged in
+		if (!user || hasUpvoted === true) return;
+		console.log('upvoting post');
+		if (hasUpvoted == null) {
+			addVote('upvote');
 			setUpvoteScore(upvoteScore + 1);
 			setHasUpvoted(true);
 		} else {
+			updateVote('upvote');
 			setUpvoteScore(upvoteScore + 2);
+			setHasUpvoted(true);
 		}
 	}
 
 	function downvotePost() {
-		if (!user) return;
-		if (!hasUpvoted) {
+		// Stops user from upvoting if they have already upvoted and if they are not logged in
+		if (!user || hasUpvoted === false) return;
+		console.log('downvote');
+		if (hasUpvoted == null) {
+			addVote('downvote');
 			setUpvoteScore(upvoteScore - 1);
 			setHasUpvoted(true);
 		} else {
+			updateVote('downvote');
 			setUpvoteScore(upvoteScore - 2);
+			setHasUpvoted(false);
 		}
 	}
 	return (
