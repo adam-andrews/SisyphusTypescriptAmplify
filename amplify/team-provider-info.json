@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "redditamplify7ff41043": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dc8lyi81xzh9g",
+          "type": "cicd"
+        }
       }
     }
   }

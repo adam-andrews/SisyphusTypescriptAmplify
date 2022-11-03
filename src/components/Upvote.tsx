@@ -74,11 +74,8 @@ function Upvote({ postId }: UpvoteProps) {
 		}
 	}
 	async function updateVote(vote: string) {
-		console.log('update vote');
 		if (!userVote) return;
-		console.log('userVote', userVote);
-		console.log('vote', userVote.id);
-		console.log('vote text', vote);
+
 		try {
 			const upvote = {
 				id: userVote?.id,
@@ -91,9 +88,7 @@ function Upvote({ postId }: UpvoteProps) {
 				data: UpdateVoteMutation;
 				errors: any[];
 			};
-			console.log('data of update vote', data);
 			userVote.vote = vote;
-			console.log('All Votes', upvotes);
 		} catch (err) {
 			console.log('error creating upvote', err);
 		}
