@@ -1,0 +1,206 @@
+# Sisyphus seed data. Paste into the AppSync console query editor (API key auth) and run.
+# Every record has a fixed id, so running it twice fails on duplicates instead of creating copies.
+mutation SeedSisyphus {
+  m001: createSubreddit(input: {id: "seed-sub-cats", name: "Cats"}) { id }
+  m002: createSubreddit(input: {id: "seed-sub-dogs", name: "Dogs"}) { id }
+  m003: createSubreddit(input: {id: "seed-sub-shrimp", name: "Shrimp"}) { id }
+  m004: createSubreddit(input: {id: "seed-sub-programming", name: "Programming"}) { id }
+  m005: createPost(input: {id: "seed-post-cats-01", title: "Those blue eyes though", contents: "She stares at me like this every morning until breakfast appears.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Blue-eyed_domestic_cat_%28Felis_silvestris_catus%29.jpg/960px-Blue-eyed_domestic_cat_%28Felis_silvestris_catus%29.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "whisker_wendy"}) { id }
+  m006: createComment(input: {id: "seed-post-cats-01-c1", postID: "seed-post-cats-01", username: "pass", content: "My cat does exactly the same thing"}) { id }
+  m007: createComment(input: {id: "seed-post-cats-01-c2", postID: "seed-post-cats-01", username: "byte_me_bella", content: "My cat does exactly the same thing"}) { id }
+  m008: createComment(input: {id: "seed-post-cats-01-c3", postID: "seed-post-cats-01", username: "shrimp_queen", content: "My cat does exactly the same thing"}) { id }
+  m009: createVote(input: {id: "seed-post-cats-01-v1", postID: "seed-post-cats-01", username: "byte_me_bella", vote: "upvote"}) { id }
+  m010: createVote(input: {id: "seed-post-cats-01-v2", postID: "seed-post-cats-01", username: "tabby_tom", vote: "upvote"}) { id }
+  m011: createPost(input: {id: "seed-post-dogs-01", title: "Golden retriever found the perfect stick", contents: "It was bigger than him. He carried it all the way home anyway.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Golden_Retriever_with_a_stick_%28Barras%29.jpg/960px-Golden_Retriever_with_a_stick_%28Barras%29.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "goodboy_gary"}) { id }
+  m012: createComment(input: {id: "seed-post-dogs-01-c1", postID: "seed-post-dogs-01", username: "pass", content: "I would die for this dog"}) { id }
+  m013: createVote(input: {id: "seed-post-dogs-01-v1", postID: "seed-post-dogs-01", username: "tabby_tom", vote: "upvote"}) { id }
+  m014: createVote(input: {id: "seed-post-dogs-01-v2", postID: "seed-post-dogs-01", username: "byte_me_bella", vote: "upvote"}) { id }
+  m015: createVote(input: {id: "seed-post-dogs-01-v3", postID: "seed-post-dogs-01", username: "pass", vote: "upvote"}) { id }
+  m016: createPost(input: {id: "seed-post-shrimp-01", title: "My cherry shrimp is berried!", contents: "First batch of eggs in the new tank. Fingers crossed for shrimplets.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Female_Neocaridina_davidi_shrimp_with_eggs.jpg/960px-Female_Neocaridina_davidi_shrimp_with_eggs.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "shrimp_queen"}) { id }
+  m017: createComment(input: {id: "seed-post-shrimp-01-c1", postID: "seed-post-shrimp-01", username: "whisker_wendy", content: "Recipe please!"}) { id }
+  m018: createComment(input: {id: "seed-post-shrimp-01-c2", postID: "seed-post-shrimp-01", username: "null_pointer_nick", content: "Beautiful colouring"}) { id }
+  m019: createVote(input: {id: "seed-post-shrimp-01-v1", postID: "seed-post-shrimp-01", username: "whisker_wendy", vote: "upvote"}) { id }
+  m020: createVote(input: {id: "seed-post-shrimp-01-v2", postID: "seed-post-shrimp-01", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m021: createPost(input: {id: "seed-post-programming-01", title: "Finally finished my mechanical keyboard build", contents: "Brown switches, custom caps. Typing is fun again.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Beautiful_Mechanical_Keyboard.jpg/960px-Beautiful_Mechanical_Keyboard.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "null_pointer_nick"}) { id }
+  m022: createComment(input: {id: "seed-post-programming-01-c1", postID: "seed-post-programming-01", username: "pass", content: "Clean setup, love it"}) { id }
+  m023: createComment(input: {id: "seed-post-programming-01-c2", postID: "seed-post-programming-01", username: "byte_me_bella", content: "Works on my machine"}) { id }
+  m024: createVote(input: {id: "seed-post-programming-01-v1", postID: "seed-post-programming-01", username: "goodboy_gary", vote: "upvote"}) { id }
+  m025: createVote(input: {id: "seed-post-programming-01-v2", postID: "seed-post-programming-01", username: "tabby_tom", vote: "upvote"}) { id }
+  m026: createVote(input: {id: "seed-post-programming-01-v3", postID: "seed-post-programming-01", username: "byte_me_bella", vote: "downvote"}) { id }
+  m027: createVote(input: {id: "seed-post-programming-01-v4", postID: "seed-post-programming-01", username: "pass", vote: "upvote"}) { id }
+  m028: createPost(input: {id: "seed-post-cats-02", title: "Met this calico on holiday in Assisi", contents: "Followed us around the old town for an hour. Absolute tour guide.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Calico_cat%2C_-_Assisi%2C_Italy.jpg/960px-Calico_cat%2C_-_Assisi%2C_Italy.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "pass"}) { id }
+  m029: createComment(input: {id: "seed-post-cats-02-c1", postID: "seed-post-cats-02", username: "shrimp_queen", content: "Majestic."}) { id }
+  m030: createComment(input: {id: "seed-post-cats-02-c2", postID: "seed-post-cats-02", username: "tabby_tom", content: "My cat does exactly the same thing"}) { id }
+  m031: createComment(input: {id: "seed-post-cats-02-c3", postID: "seed-post-cats-02", username: "byte_me_bella", content: "This is the content I am here for"}) { id }
+  m032: createVote(input: {id: "seed-post-cats-02-v1", postID: "seed-post-cats-02", username: "whisker_wendy", vote: "upvote"}) { id }
+  m033: createVote(input: {id: "seed-post-cats-02-v2", postID: "seed-post-cats-02", username: "goodboy_gary", vote: "downvote"}) { id }
+  m034: createPost(input: {id: "seed-post-dogs-02", title: "Our new corgi puppy is 3 months old today", contents: "Tiny legs, enormous personality.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/3_month_old_Corgi_puppy.jpg/960px-3_month_old_Corgi_puppy.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "pass"}) { id }
+  m035: createComment(input: {id: "seed-post-dogs-02-c1", postID: "seed-post-dogs-02", username: "whisker_wendy", content: "Ten out of ten, would pet"}) { id }
+  m036: createVote(input: {id: "seed-post-dogs-02-v1", postID: "seed-post-dogs-02", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m037: createVote(input: {id: "seed-post-dogs-02-v2", postID: "seed-post-dogs-02", username: "shrimp_queen", vote: "upvote"}) { id }
+  m038: createVote(input: {id: "seed-post-dogs-02-v3", postID: "seed-post-dogs-02", username: "goodboy_gary", vote: "upvote"}) { id }
+  m039: createVote(input: {id: "seed-post-dogs-02-v4", postID: "seed-post-dogs-02", username: "byte_me_bella", vote: "upvote"}) { id }
+  m040: createPost(input: {id: "seed-post-shrimp-02", title: "Super yellow neocaridina colony is thriving", contents: "Took six months to get the colour this bright.", image: "https://upload.wikimedia.org/wikipedia/commons/3/33/Super_Yellow_Cherry_Shrimp_%28Neocaridina_morph%29.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "shrimp_queen"}) { id }
+  m041: createComment(input: {id: "seed-post-shrimp-02-c1", postID: "seed-post-shrimp-02", username: "tabby_tom", content: "Shrimp supremacy"}) { id }
+  m042: createVote(input: {id: "seed-post-shrimp-02-v1", postID: "seed-post-shrimp-02", username: "tabby_tom", vote: "upvote"}) { id }
+  m043: createVote(input: {id: "seed-post-shrimp-02-v2", postID: "seed-post-shrimp-02", username: "whisker_wendy", vote: "upvote"}) { id }
+  m044: createVote(input: {id: "seed-post-shrimp-02-v3", postID: "seed-post-shrimp-02", username: "byte_me_bella", vote: "downvote"}) { id }
+  m045: createPost(input: {id: "seed-post-programming-02", title: "Late night CSS debugging session", contents: "It was a missing semicolon. It is always a missing semicolon.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/CSS_code_on_a_screen_%28Unsplash%29.jpg/960px-CSS_code_on_a_screen_%28Unsplash%29.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "pass"}) { id }
+  m046: createComment(input: {id: "seed-post-programming-02-c1", postID: "seed-post-programming-02", username: "tabby_tom", content: "Works on my machine"}) { id }
+  m047: createComment(input: {id: "seed-post-programming-02-c2", postID: "seed-post-programming-02", username: "goodboy_gary", content: "Have you tried turning it off and on again?"}) { id }
+  m048: createComment(input: {id: "seed-post-programming-02-c3", postID: "seed-post-programming-02", username: "shrimp_queen", content: "Works on my machine"}) { id }
+  m049: createVote(input: {id: "seed-post-programming-02-v1", postID: "seed-post-programming-02", username: "null_pointer_nick", vote: "downvote"}) { id }
+  m050: createVote(input: {id: "seed-post-programming-02-v2", postID: "seed-post-programming-02", username: "shrimp_queen", vote: "upvote"}) { id }
+  m051: createVote(input: {id: "seed-post-programming-02-v3", postID: "seed-post-programming-02", username: "whisker_wendy", vote: "upvote"}) { id }
+  m052: createVote(input: {id: "seed-post-programming-02-v4", postID: "seed-post-programming-02", username: "byte_me_bella", vote: "upvote"}) { id }
+  m053: createPost(input: {id: "seed-post-cats-03", title: "Found the laziest cat in the house", contents: "Belly up, zero shame. This is his natural state.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Sleeping_cat_on_her_back.jpg/960px-Sleeping_cat_on_her_back.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "tabby_tom"}) { id }
+  m054: createComment(input: {id: "seed-post-cats-03-c1", postID: "seed-post-cats-03", username: "shrimp_queen", content: "My cat does exactly the same thing"}) { id }
+  m055: createComment(input: {id: "seed-post-cats-03-c2", postID: "seed-post-cats-03", username: "byte_me_bella", content: "Absolute unit of a cat"}) { id }
+  m056: createVote(input: {id: "seed-post-cats-03-v1", postID: "seed-post-cats-03", username: "whisker_wendy", vote: "upvote"}) { id }
+  m057: createVote(input: {id: "seed-post-cats-03-v2", postID: "seed-post-cats-03", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m058: createVote(input: {id: "seed-post-cats-03-v3", postID: "seed-post-cats-03", username: "goodboy_gary", vote: "upvote"}) { id }
+  m059: createPost(input: {id: "seed-post-dogs-03", title: "Beagle puppy fell asleep on the shelf", contents: "No idea how she got up there. Not moving her.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Beagle_puppy_sleeping_on_a_shelf.jpg/960px-Beagle_puppy_sleeping_on_a_shelf.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "goodboy_gary"}) { id }
+  m060: createComment(input: {id: "seed-post-dogs-03-c1", postID: "seed-post-dogs-03", username: "whisker_wendy", content: "Mine does the same zoomies"}) { id }
+  m061: createComment(input: {id: "seed-post-dogs-03-c2", postID: "seed-post-dogs-03", username: "byte_me_bella", content: "Ten out of ten, would pet"}) { id }
+  m062: createVote(input: {id: "seed-post-dogs-03-v1", postID: "seed-post-dogs-03", username: "pass", vote: "upvote"}) { id }
+  m063: createVote(input: {id: "seed-post-dogs-03-v2", postID: "seed-post-dogs-03", username: "byte_me_bella", vote: "upvote"}) { id }
+  m064: createPost(input: {id: "seed-post-shrimp-03", title: "Gambas al ajillo night", contents: "Garlic, chilli, olive oil and a lot of bread. Recipe in the comments.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Gambas_Al_Ajillo_%28Spanish_Garlic_Shrimp%29.jpg/960px-Gambas_Al_Ajillo_%28Spanish_Garlic_Shrimp%29.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "pass"}) { id }
+  m065: createComment(input: {id: "seed-post-shrimp-03-c1", postID: "seed-post-shrimp-03", username: "null_pointer_nick", content: "How many do you have in the tank?"}) { id }
+  m066: createComment(input: {id: "seed-post-shrimp-03-c2", postID: "seed-post-shrimp-03", username: "tabby_tom", content: "How many do you have in the tank?"}) { id }
+  m067: createComment(input: {id: "seed-post-shrimp-03-c3", postID: "seed-post-shrimp-03", username: "whisker_wendy", content: "Recipe please!"}) { id }
+  m068: createVote(input: {id: "seed-post-shrimp-03-v1", postID: "seed-post-shrimp-03", username: "tabby_tom", vote: "upvote"}) { id }
+  m069: createVote(input: {id: "seed-post-shrimp-03-v2", postID: "seed-post-shrimp-03", username: "shrimp_queen", vote: "upvote"}) { id }
+  m070: createVote(input: {id: "seed-post-shrimp-03-v3", postID: "seed-post-shrimp-03", username: "whisker_wendy", vote: "upvote"}) { id }
+  m071: createVote(input: {id: "seed-post-shrimp-03-v4", postID: "seed-post-shrimp-03", username: "byte_me_bella", vote: "upvote"}) { id }
+  m072: createVote(input: {id: "seed-post-shrimp-03-v5", postID: "seed-post-shrimp-03", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m073: createPost(input: {id: "seed-post-programming-03", title: "My current setup: laptop, coffee, deadlines", contents: "Working from the kitchen table this week.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Laptop_and_coffee_on_a_desk.jpg/960px-Laptop_and_coffee_on_a_desk.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "byte_me_bella"}) { id }
+  m074: createComment(input: {id: "seed-post-programming-03-c1", postID: "seed-post-programming-03", username: "whisker_wendy", content: "Works on my machine"}) { id }
+  m075: createComment(input: {id: "seed-post-programming-03-c2", postID: "seed-post-programming-03", username: "shrimp_queen", content: "Tabs or spaces though?"}) { id }
+  m076: createVote(input: {id: "seed-post-programming-03-v1", postID: "seed-post-programming-03", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m077: createVote(input: {id: "seed-post-programming-03-v2", postID: "seed-post-programming-03", username: "whisker_wendy", vote: "upvote"}) { id }
+  m078: createVote(input: {id: "seed-post-programming-03-v3", postID: "seed-post-programming-03", username: "pass", vote: "upvote"}) { id }
+  m079: createVote(input: {id: "seed-post-programming-03-v4", postID: "seed-post-programming-03", username: "goodboy_gary", vote: "upvote"}) { id }
+  m080: createPost(input: {id: "seed-post-cats-04", title: "First time seeing snow", contents: "Lasted about 40 seconds out there before demanding to come back in.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Felis_catus-cat_on_snow.jpg/960px-Felis_catus-cat_on_snow.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "whisker_wendy"}) { id }
+  m081: createComment(input: {id: "seed-post-cats-04-c1", postID: "seed-post-cats-04", username: "tabby_tom", content: "Majestic."}) { id }
+  m082: createVote(input: {id: "seed-post-cats-04-v1", postID: "seed-post-cats-04", username: "tabby_tom", vote: "upvote"}) { id }
+  m083: createVote(input: {id: "seed-post-cats-04-v2", postID: "seed-post-cats-04", username: "shrimp_queen", vote: "upvote"}) { id }
+  m084: createPost(input: {id: "seed-post-dogs-04", title: "Zoomies at the beach", contents: "Nothing makes him happier than sand and an open shoreline.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Running_dog_at_the_beach.jpg/960px-Running_dog_at_the_beach.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "byte_me_bella"}) { id }
+  m085: createComment(input: {id: "seed-post-dogs-04-c1", postID: "seed-post-dogs-04", username: "goodboy_gary", content: "Good boy detected"}) { id }
+  m086: createComment(input: {id: "seed-post-dogs-04-c2", postID: "seed-post-dogs-04", username: "whisker_wendy", content: "I would die for this dog"}) { id }
+  m087: createVote(input: {id: "seed-post-dogs-04-v1", postID: "seed-post-dogs-04", username: "pass", vote: "upvote"}) { id }
+  m088: createVote(input: {id: "seed-post-dogs-04-v2", postID: "seed-post-dogs-04", username: "shrimp_queen", vote: "downvote"}) { id }
+  m089: createPost(input: {id: "seed-post-shrimp-04", title: "Spotted this red shrimp snorkelling in Puerto Rico", contents: "Hiding under a ledge about 3 metres down.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Red_shrimp_Puerto_Rico_April_2015.png/960px-Red_shrimp_Puerto_Rico_April_2015.png", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "byte_me_bella"}) { id }
+  m090: createComment(input: {id: "seed-post-shrimp-04-c1", postID: "seed-post-shrimp-04", username: "whisker_wendy", content: "Recipe please!"}) { id }
+  m091: createComment(input: {id: "seed-post-shrimp-04-c2", postID: "seed-post-shrimp-04", username: "tabby_tom", content: "Now I am hungry"}) { id }
+  m092: createComment(input: {id: "seed-post-shrimp-04-c3", postID: "seed-post-shrimp-04", username: "shrimp_queen", content: "Beautiful colouring"}) { id }
+  m093: createVote(input: {id: "seed-post-shrimp-04-v1", postID: "seed-post-shrimp-04", username: "whisker_wendy", vote: "upvote"}) { id }
+  m094: createVote(input: {id: "seed-post-shrimp-04-v2", postID: "seed-post-shrimp-04", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m095: createVote(input: {id: "seed-post-shrimp-04-v3", postID: "seed-post-shrimp-04", username: "tabby_tom", vote: "upvote"}) { id }
+  m096: createVote(input: {id: "seed-post-shrimp-04-v4", postID: "seed-post-shrimp-04", username: "goodboy_gary", vote: "downvote"}) { id }
+  m097: createVote(input: {id: "seed-post-shrimp-04-v5", postID: "seed-post-shrimp-04", username: "shrimp_queen", vote: "upvote"}) { id }
+  m098: createPost(input: {id: "seed-post-programming-04", title: "Margaret Hamilton with the Apollo guidance code", contents: "Every programmer should know this photo. The stack of printouts is the source code.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Margaret_Hamilton.gif/960px-Margaret_Hamilton.gif", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "null_pointer_nick"}) { id }
+  m099: createComment(input: {id: "seed-post-programming-04-c1", postID: "seed-post-programming-04", username: "whisker_wendy", content: "Works on my machine"}) { id }
+  m100: createVote(input: {id: "seed-post-programming-04-v1", postID: "seed-post-programming-04", username: "pass", vote: "upvote"}) { id }
+  m101: createVote(input: {id: "seed-post-programming-04-v2", postID: "seed-post-programming-04", username: "tabby_tom", vote: "upvote"}) { id }
+  m102: createVote(input: {id: "seed-post-programming-04-v3", postID: "seed-post-programming-04", username: "whisker_wendy", vote: "upvote"}) { id }
+  m103: createVote(input: {id: "seed-post-programming-04-v4", postID: "seed-post-programming-04", username: "goodboy_gary", vote: "upvote"}) { id }
+  m104: createPost(input: {id: "seed-post-cats-05", title: "Odd-eyed and proud of it", contents: "One blue, one gold. The vet says she is perfectly healthy, just fancy.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/June_odd-eyed-cat_cropped.jpg/960px-June_odd-eyed-cat_cropped.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "byte_me_bella"}) { id }
+  m105: createComment(input: {id: "seed-post-cats-05-c1", postID: "seed-post-cats-05", username: "goodboy_gary", content: "Those eyes are unreal"}) { id }
+  m106: createVote(input: {id: "seed-post-cats-05-v1", postID: "seed-post-cats-05", username: "goodboy_gary", vote: "upvote"}) { id }
+  m107: createVote(input: {id: "seed-post-cats-05-v2", postID: "seed-post-cats-05", username: "shrimp_queen", vote: "upvote"}) { id }
+  m108: createVote(input: {id: "seed-post-cats-05-v3", postID: "seed-post-cats-05", username: "whisker_wendy", vote: "downvote"}) { id }
+  m109: createPost(input: {id: "seed-post-dogs-05", title: "Husky refusing to come inside", contents: "It is minus ten. He thinks this is perfect weather.", image: "https://upload.wikimedia.org/wikipedia/commons/3/38/Husky_sitting_in_snow.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "goodboy_gary"}) { id }
+  m110: createComment(input: {id: "seed-post-dogs-05-c1", postID: "seed-post-dogs-05", username: "null_pointer_nick", content: "Ten out of ten, would pet"}) { id }
+  m111: createComment(input: {id: "seed-post-dogs-05-c2", postID: "seed-post-dogs-05", username: "whisker_wendy", content: "I would die for this dog"}) { id }
+  m112: createComment(input: {id: "seed-post-dogs-05-c3", postID: "seed-post-dogs-05", username: "byte_me_bella", content: "Good boy detected"}) { id }
+  m113: createVote(input: {id: "seed-post-dogs-05-v1", postID: "seed-post-dogs-05", username: "byte_me_bella", vote: "upvote"}) { id }
+  m114: createVote(input: {id: "seed-post-dogs-05-v2", postID: "seed-post-dogs-05", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m115: createPost(input: {id: "seed-post-shrimp-05", title: "Shrimp tacos done right", contents: "Crispy, spicy, loads of lime. Best lunch of the week.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Shrimp_tacos_-_El_Dorado_Kitchen_-_Sarah_Stierch.jpg/960px-Shrimp_tacos_-_El_Dorado_Kitchen_-_Sarah_Stierch.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "null_pointer_nick"}) { id }
+  m116: createComment(input: {id: "seed-post-shrimp-05-c1", postID: "seed-post-shrimp-05", username: "pass", content: "How many do you have in the tank?"}) { id }
+  m117: createComment(input: {id: "seed-post-shrimp-05-c2", postID: "seed-post-shrimp-05", username: "byte_me_bella", content: "Shrimp supremacy"}) { id }
+  m118: createComment(input: {id: "seed-post-shrimp-05-c3", postID: "seed-post-shrimp-05", username: "tabby_tom", content: "Beautiful colouring"}) { id }
+  m119: createVote(input: {id: "seed-post-shrimp-05-v1", postID: "seed-post-shrimp-05", username: "whisker_wendy", vote: "upvote"}) { id }
+  m120: createVote(input: {id: "seed-post-shrimp-05-v2", postID: "seed-post-shrimp-05", username: "byte_me_bella", vote: "upvote"}) { id }
+  m121: createPost(input: {id: "seed-post-programming-05", title: "Python is still the most readable language", contents: "Change my mind.", image: "https://upload.wikimedia.org/wikipedia/commons/b/bc/Python_Code.png", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "byte_me_bella"}) { id }
+  m122: createComment(input: {id: "seed-post-programming-05-c1", postID: "seed-post-programming-05", username: "whisker_wendy", content: "Clean setup, love it"}) { id }
+  m123: createComment(input: {id: "seed-post-programming-05-c2", postID: "seed-post-programming-05", username: "goodboy_gary", content: "Have you tried turning it off and on again?"}) { id }
+  m124: createVote(input: {id: "seed-post-programming-05-v1", postID: "seed-post-programming-05", username: "shrimp_queen", vote: "upvote"}) { id }
+  m125: createVote(input: {id: "seed-post-programming-05-v2", postID: "seed-post-programming-05", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m126: createPost(input: {id: "seed-post-cats-06", title: "20 years old and still the boss", contents: "Our old man is officially 20. Sleeps 22 hours a day and has earned every one.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Tired_20-year-old_cat.jpg/960px-Tired_20-year-old_cat.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "pass"}) { id }
+  m127: createComment(input: {id: "seed-post-cats-06-c1", postID: "seed-post-cats-06", username: "whisker_wendy", content: "My cat does exactly the same thing"}) { id }
+  m128: createComment(input: {id: "seed-post-cats-06-c2", postID: "seed-post-cats-06", username: "byte_me_bella", content: "Give them a chin scratch from me"}) { id }
+  m129: createComment(input: {id: "seed-post-cats-06-c3", postID: "seed-post-cats-06", username: "goodboy_gary", content: "Give them a chin scratch from me"}) { id }
+  m130: createVote(input: {id: "seed-post-cats-06-v1", postID: "seed-post-cats-06", username: "goodboy_gary", vote: "upvote"}) { id }
+  m131: createVote(input: {id: "seed-post-cats-06-v2", postID: "seed-post-cats-06", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m132: createVote(input: {id: "seed-post-cats-06-v3", postID: "seed-post-cats-06", username: "whisker_wendy", vote: "downvote"}) { id }
+  m133: createVote(input: {id: "seed-post-cats-06-v4", postID: "seed-post-cats-06", username: "tabby_tom", vote: "upvote"}) { id }
+  m134: createVote(input: {id: "seed-post-cats-06-v5", postID: "seed-post-cats-06", username: "byte_me_bella", vote: "upvote"}) { id }
+  m135: createPost(input: {id: "seed-post-dogs-06", title: "Dachshund at the wiener dog races", contents: "Came fourth but won the crowd.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Dachshund_Buda_Texas_Weiner_Dog_Races_2023.jpg/960px-Dachshund_Buda_Texas_Weiner_Dog_Races_2023.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "pass"}) { id }
+  m136: createComment(input: {id: "seed-post-dogs-06-c1", postID: "seed-post-dogs-06", username: "byte_me_bella", content: "I would die for this dog"}) { id }
+  m137: createComment(input: {id: "seed-post-dogs-06-c2", postID: "seed-post-dogs-06", username: "tabby_tom", content: "I would die for this dog"}) { id }
+  m138: createComment(input: {id: "seed-post-dogs-06-c3", postID: "seed-post-dogs-06", username: "null_pointer_nick", content: "Those ears!"}) { id }
+  m139: createVote(input: {id: "seed-post-dogs-06-v1", postID: "seed-post-dogs-06", username: "whisker_wendy", vote: "upvote"}) { id }
+  m140: createVote(input: {id: "seed-post-dogs-06-v2", postID: "seed-post-dogs-06", username: "tabby_tom", vote: "upvote"}) { id }
+  m141: createVote(input: {id: "seed-post-dogs-06-v3", postID: "seed-post-dogs-06", username: "byte_me_bella", vote: "upvote"}) { id }
+  m142: createPost(input: {id: "seed-post-shrimp-06", title: "Freshwater shrimp in the local stream", contents: "Tiny, almost see-through, and surprisingly fast.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Fresh_water_shrimp.jpg/960px-Fresh_water_shrimp.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "shrimp_queen"}) { id }
+  m143: createComment(input: {id: "seed-post-shrimp-06-c1", postID: "seed-post-shrimp-06", username: "tabby_tom", content: "Recipe please!"}) { id }
+  m144: createComment(input: {id: "seed-post-shrimp-06-c2", postID: "seed-post-shrimp-06", username: "whisker_wendy", content: "What are your water parameters?"}) { id }
+  m145: createComment(input: {id: "seed-post-shrimp-06-c3", postID: "seed-post-shrimp-06", username: "pass", content: "Now I am hungry"}) { id }
+  m146: createVote(input: {id: "seed-post-shrimp-06-v1", postID: "seed-post-shrimp-06", username: "tabby_tom", vote: "upvote"}) { id }
+  m147: createVote(input: {id: "seed-post-shrimp-06-v2", postID: "seed-post-shrimp-06", username: "pass", vote: "upvote"}) { id }
+  m148: createPost(input: {id: "seed-post-programming-06", title: "Found my old Atari 800 XL in the loft", contents: "Tape recorder still works. Loading a game took eleven minutes.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Atari_800_XL_home_computer_with_monitor_and_tape_program_recorder_XC12.jpg/960px-Atari_800_XL_home_computer_with_monitor_and_tape_program_recorder_XC12.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "pass"}) { id }
+  m149: createComment(input: {id: "seed-post-programming-06-c1", postID: "seed-post-programming-06", username: "tabby_tom", content: "Have you tried turning it off and on again?"}) { id }
+  m150: createVote(input: {id: "seed-post-programming-06-v1", postID: "seed-post-programming-06", username: "tabby_tom", vote: "upvote"}) { id }
+  m151: createVote(input: {id: "seed-post-programming-06-v2", postID: "seed-post-programming-06", username: "whisker_wendy", vote: "upvote"}) { id }
+  m152: createPost(input: {id: "seed-post-cats-07", title: "Sphynx kittens are basically warm peaches", contents: "Visited a breeder today. They are softer than they look.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Cat_Sphynx._Kittens._img_11.jpg/960px-Cat_Sphynx._Kittens._img_11.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "tabby_tom"}) { id }
+  m153: createComment(input: {id: "seed-post-cats-07-c1", postID: "seed-post-cats-07", username: "goodboy_gary", content: "This is the content I am here for"}) { id }
+  m154: createComment(input: {id: "seed-post-cats-07-c2", postID: "seed-post-cats-07", username: "byte_me_bella", content: "This is the content I am here for"}) { id }
+  m155: createComment(input: {id: "seed-post-cats-07-c3", postID: "seed-post-cats-07", username: "whisker_wendy", content: "Absolute unit of a cat"}) { id }
+  m156: createVote(input: {id: "seed-post-cats-07-v1", postID: "seed-post-cats-07", username: "goodboy_gary", vote: "upvote"}) { id }
+  m157: createVote(input: {id: "seed-post-cats-07-v2", postID: "seed-post-cats-07", username: "shrimp_queen", vote: "upvote"}) { id }
+  m158: createVote(input: {id: "seed-post-cats-07-v3", postID: "seed-post-cats-07", username: "whisker_wendy", vote: "upvote"}) { id }
+  m159: createPost(input: {id: "seed-post-dogs-07", title: "Corgi claimed the bed again", contents: "I bought him a dog bed. He has never once used it.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Corgi_laying_on_a_bed.jpg/960px-Corgi_laying_on_a_bed.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "tabby_tom"}) { id }
+  m160: createComment(input: {id: "seed-post-dogs-07-c1", postID: "seed-post-dogs-07", username: "pass", content: "Ten out of ten, would pet"}) { id }
+  m161: createVote(input: {id: "seed-post-dogs-07-v1", postID: "seed-post-dogs-07", username: "pass", vote: "upvote"}) { id }
+  m162: createVote(input: {id: "seed-post-dogs-07-v2", postID: "seed-post-dogs-07", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m163: createPost(input: {id: "seed-post-shrimp-07", title: "Rockpool find: common prawn", contents: "Palaemon serratus hanging out in the Adriatic.", image: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Palaemon_serratus_Croazia.jpg", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "pass"}) { id }
+  m164: createComment(input: {id: "seed-post-shrimp-07-c1", postID: "seed-post-shrimp-07", username: "whisker_wendy", content: "Beautiful colouring"}) { id }
+  m165: createComment(input: {id: "seed-post-shrimp-07-c2", postID: "seed-post-shrimp-07", username: "goodboy_gary", content: "Beautiful colouring"}) { id }
+  m166: createVote(input: {id: "seed-post-shrimp-07-v1", postID: "seed-post-shrimp-07", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m167: createVote(input: {id: "seed-post-shrimp-07-v2", postID: "seed-post-shrimp-07", username: "tabby_tom", vote: "downvote"}) { id }
+  m168: createVote(input: {id: "seed-post-shrimp-07-v3", postID: "seed-post-shrimp-07", username: "shrimp_queen", vote: "upvote"}) { id }
+  m169: createPost(input: {id: "seed-post-programming-07", title: "MX Browns vs Blues?", contents: "Just swapped to browns and my housemates are much happier.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/MX_brown_key_switches.jpg/960px-MX_brown_key_switches.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "null_pointer_nick"}) { id }
+  m170: createComment(input: {id: "seed-post-programming-07-c1", postID: "seed-post-programming-07", username: "byte_me_bella", content: "Semicolons have ruined more nights than coffee has saved"}) { id }
+  m171: createVote(input: {id: "seed-post-programming-07-v1", postID: "seed-post-programming-07", username: "byte_me_bella", vote: "upvote"}) { id }
+  m172: createVote(input: {id: "seed-post-programming-07-v2", postID: "seed-post-programming-07", username: "pass", vote: "upvote"}) { id }
+  m173: createVote(input: {id: "seed-post-programming-07-v3", postID: "seed-post-programming-07", username: "whisker_wendy", vote: "upvote"}) { id }
+  m174: createVote(input: {id: "seed-post-programming-07-v4", postID: "seed-post-programming-07", username: "shrimp_queen", vote: "upvote"}) { id }
+  m175: createPost(input: {id: "seed-post-cats-08", title: "Tabby with the bluest eyes", contents: "Rescued him last month and he has already claimed the sofa.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Tabby_cat_with_blue_eyes-3336579.jpg/960px-Tabby_cat_with_blue_eyes-3336579.jpg", vote: "0", subredditID: "seed-sub-cats", subredditName: "Cats", username: "whisker_wendy"}) { id }
+  m176: createComment(input: {id: "seed-post-cats-08-c1", postID: "seed-post-cats-08", username: "goodboy_gary", content: "This is the content I am here for"}) { id }
+  m177: createComment(input: {id: "seed-post-cats-08-c2", postID: "seed-post-cats-08", username: "shrimp_queen", content: "This is the content I am here for"}) { id }
+  m178: createComment(input: {id: "seed-post-cats-08-c3", postID: "seed-post-cats-08", username: "byte_me_bella", content: "Absolute unit of a cat"}) { id }
+  m179: createVote(input: {id: "seed-post-cats-08-v1", postID: "seed-post-cats-08", username: "shrimp_queen", vote: "upvote"}) { id }
+  m180: createVote(input: {id: "seed-post-cats-08-v2", postID: "seed-post-cats-08", username: "pass", vote: "upvote"}) { id }
+  m181: createVote(input: {id: "seed-post-cats-08-v3", postID: "seed-post-cats-08", username: "tabby_tom", vote: "upvote"}) { id }
+  m182: createVote(input: {id: "seed-post-cats-08-v4", postID: "seed-post-cats-08", username: "byte_me_bella", vote: "upvote"}) { id }
+  m183: createVote(input: {id: "seed-post-cats-08-v5", postID: "seed-post-cats-08", username: "goodboy_gary", vote: "downvote"}) { id }
+  m184: createPost(input: {id: "seed-post-dogs-08", title: "Golden retriever puppy meeting the world", contents: "Callie is 10 weeks old and has already met every neighbour.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Callie_the_golden_retriever_puppy.jpg/960px-Callie_the_golden_retriever_puppy.jpg", vote: "0", subredditID: "seed-sub-dogs", subredditName: "Dogs", username: "goodboy_gary"}) { id }
+  m185: createComment(input: {id: "seed-post-dogs-08-c1", postID: "seed-post-dogs-08", username: "byte_me_bella", content: "Ten out of ten, would pet"}) { id }
+  m186: createVote(input: {id: "seed-post-dogs-08-v1", postID: "seed-post-dogs-08", username: "tabby_tom", vote: "upvote"}) { id }
+  m187: createVote(input: {id: "seed-post-dogs-08-v2", postID: "seed-post-dogs-08", username: "pass", vote: "upvote"}) { id }
+  m188: createVote(input: {id: "seed-post-dogs-08-v3", postID: "seed-post-dogs-08", username: "byte_me_bella", vote: "upvote"}) { id }
+  m189: createVote(input: {id: "seed-post-dogs-08-v4", postID: "seed-post-dogs-08", username: "null_pointer_nick", vote: "upvote"}) { id }
+  m190: createVote(input: {id: "seed-post-dogs-08-v5", postID: "seed-post-dogs-08", username: "shrimp_queen", vote: "upvote"}) { id }
+  m191: createPost(input: {id: "seed-post-shrimp-08", title: "Shrimp grooming itself on the reef", contents: "Caught it mid-clean. They are meticulous little things.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Shrimp_grooming_itself_near_Puerto_Rico_April_2015.png/960px-Shrimp_grooming_itself_near_Puerto_Rico_April_2015.png", vote: "0", subredditID: "seed-sub-shrimp", subredditName: "Shrimp", username: "shrimp_queen"}) { id }
+  m192: createComment(input: {id: "seed-post-shrimp-08-c1", postID: "seed-post-shrimp-08", username: "goodboy_gary", content: "Beautiful colouring"}) { id }
+  m193: createComment(input: {id: "seed-post-shrimp-08-c2", postID: "seed-post-shrimp-08", username: "pass", content: "Now I am hungry"}) { id }
+  m194: createVote(input: {id: "seed-post-shrimp-08-v1", postID: "seed-post-shrimp-08", username: "byte_me_bella", vote: "upvote"}) { id }
+  m195: createVote(input: {id: "seed-post-shrimp-08-v2", postID: "seed-post-shrimp-08", username: "pass", vote: "downvote"}) { id }
+  m196: createVote(input: {id: "seed-post-shrimp-08-v3", postID: "seed-post-shrimp-08", username: "goodboy_gary", vote: "upvote"}) { id }
+  m197: createPost(input: {id: "seed-post-programming-08", title: "Code on the monitor, rain on the window", contents: "Perfect conditions for refactoring.", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Code_on_computer_monitor_%28Unsplash%29.jpg/960px-Code_on_computer_monitor_%28Unsplash%29.jpg", vote: "0", subredditID: "seed-sub-programming", subredditName: "Programming", username: "tabby_tom"}) { id }
+  m198: createComment(input: {id: "seed-post-programming-08-c1", postID: "seed-post-programming-08", username: "byte_me_bella", content: "Have you tried turning it off and on again?"}) { id }
+  m199: createComment(input: {id: "seed-post-programming-08-c2", postID: "seed-post-programming-08", username: "whisker_wendy", content: "Have you tried turning it off and on again?"}) { id }
+  m200: createComment(input: {id: "seed-post-programming-08-c3", postID: "seed-post-programming-08", username: "null_pointer_nick", content: "Clean setup, love it"}) { id }
+  m201: createVote(input: {id: "seed-post-programming-08-v1", postID: "seed-post-programming-08", username: "whisker_wendy", vote: "upvote"}) { id }
+  m202: createVote(input: {id: "seed-post-programming-08-v2", postID: "seed-post-programming-08", username: "goodboy_gary", vote: "upvote"}) { id }
+}

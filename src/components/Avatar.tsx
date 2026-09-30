@@ -14,11 +14,12 @@ export default function Avatar({ large, seed, size }: AvatarProps) {
 			}  ${large && 'h-20 w-20'} rounded-full border-gray-300 bg-white`}
 		>
 			<Image
-				src={`https://avatars.dicebear.com/api/open-peeps/${
+				src={`https://api.dicebear.com/9.x/open-peeps/svg?seed=${encodeURIComponent(
 					seed || 'placeholder'
-				}.svg`}
+				)}`}
 				alt="avatar img"
 				layout="fill"
+				unoptimized
 			/>
 		</div>
 	);

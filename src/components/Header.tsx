@@ -77,11 +77,12 @@ function Header() {
 				>
 					<div className="relative h-5 w-5 flex-shrink-0 cursor-pointer">
 						<Image
-							src={`https://avatars.dicebear.com/api/open-peeps/${
+							src={`https://api.dicebear.com/9.x/open-peeps/svg?seed=${encodeURIComponent(
 								user.username || 'placeholder'
-							}.svg`}
+							)}`}
 							alt="avatar img"
 							layout="fill"
+							unoptimized
 						/>
 					</div>
 					<p className="text-gray-400"> sign out</p>
