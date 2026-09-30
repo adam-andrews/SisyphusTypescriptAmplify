@@ -3,13 +3,15 @@
   "scripts": {
     "dev": "node_modules/node/bin/node node_modules/.bin/next dev",
     "build": "node_modules/node/bin/node node_modules/.bin/next build",
-    "start": "node_modules/node/bin/node node_modules/.bin/next start"
+    "start": "node_modules/node/bin/node node_modules/.bin/next start",
+    "sandbox": "node_modules/node/bin/node node_modules/.bin/ampx sandbox --profile sisphus",
+    "codegen": "node_modules/node/bin/node node_modules/.bin/ampx generate graphql-client-code --profile sisphus --out src/graphql"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^3.5.10",
+    "@aws-amplify/ui-react": "6",
     "@heroicons/react": "^1.0.6",
     "@uiball/loaders": "^1.2.6",
-    "aws-amplify": "^4.3.42",
+    "aws-amplify": "6",
     "csstype": "^3.1.1",
     "next": "12.3.4",
     "react": "18.1.0",
@@ -19,14 +21,18 @@
     "react-timeago": "^7.1.0"
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.25.1",
+    "@aws-amplify/backend-cli": "^1.10.0",
     "@types/node": "17.0.35",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.5",
     "@types/react-timeago": "^4.1.3",
     "autoprefixer": "^10.4.7",
+    "aws-cdk-lib": "^2.272.0",
+    "constructs": "^10.8.1",
     "node": "22",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.2",
-    "typescript": "4.7.2"
+    "typescript": "5"
   }
 }
