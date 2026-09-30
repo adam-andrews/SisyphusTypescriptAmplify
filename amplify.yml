@@ -1,0 +1,25 @@
+version: 1
+backend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 22
+        - nvm use 22
+    build:
+      commands:
+        - yarn install --frozen-lockfile --cache-folder .yarn-cache
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+frontend:
+  phases:
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .next/cache/**/*
+      - .yarn-cache/**/*
+      - node_modules/**/*

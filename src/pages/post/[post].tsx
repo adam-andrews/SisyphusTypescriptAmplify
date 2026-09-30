@@ -6,9 +6,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
-import Jelly from '@uiball/loaders';
 import { commentByPostId, getPost } from '../../graphql/queries';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { GraphQLSubscription } from 'aws-amplify/api';
+import { client } from '../../lib/amplifyClient';
 import { useUser } from '../../context/AuthContext';
 import { createComment } from '../../graphql/mutations';
 import {
@@ -26,12 +26,6 @@ type FormData = {
 	comment: string;
 };
 
-interface OnCreateCommentSubscriptionProps {
-	provider: any;
-	value: {
-		data: OnCreateCommentSubscription;
-	};
-}
 export default function PostPage() {
 	const [postData, setPostData] = useState<PostType>();
 	const [comments, setComments] = useState<CommentType[]>();
@@ -47,17 +41,15 @@ export default function PostPage() {
 
 	useEffect(() => {
 		// Creates a subscription to the onCreatePost GraphQL subscription based on post ID
-		const subscription = API.graphql({
-			query: onCreateComment,
-			variables: {
-				id: post,
-			},
-		});
-		if ('subscribe' in subscription) {
-			const sb = subscription.subscribe({
-				next: ({ provider, value }: OnCreateCommentSubscriptionProps) => {
-					const { data } = value;
-
+		const sb = client
+			.graphql<GraphQLSubscription<OnCreateCommentSubscription>>({
+				query: onCreateComment,
+				variables: {
+					id: post,
+				},
+			})
+			.subscribe({
+				next: ({ data }) => {
 					if (!data.onCreateComment) return;
 					setComments((prevComments: any) => {
 						if (!prevComments) return [data.onCreateComment];
@@ -68,12 +60,7 @@ export default function PostPage() {
 					console.log('err at subscription to comments', error);
 				},
 			});
-			return () => {
-				if ('unsubscribe' in sb) {
-					sb.unsubscribe();
-				}
-			};
-		}
+		return () => sb.unsubscribe();
 	});
 	//Filters comments based on their date created and sets the state to the sorted comments
 	function filterCommentsByDate(comments: CommentType[]) {
@@ -86,7 +73,7 @@ export default function PostPage() {
 	async function fetchPostByID() {
 		if (!post) return;
 		try {
-			const { data } = (await API.graphql({
+			const { data } = (await client.graphql({
 				query: getPost,
 				variables: { id: post },
 			})) as {
@@ -112,7 +99,7 @@ export default function PostPage() {
 			username: user?.username,
 		};
 		try {
-			const addComment = (await API.graphql({
+			const addComment = (await client.graphql({
 				query: createComment,
 				variables: { input: commentData },
 			})) as {

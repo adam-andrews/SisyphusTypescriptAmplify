@@ -5,8 +5,6 @@ import Avatar from '../components/Avatar';
 import Feed from '../components/Feed';
 import PostBox from '../components/Postbox';
 import SubredditRow from '../components/SubredditRow';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
-
 import { createSubreddit } from '../graphql/mutations';
 const subreddit = {
 	id: 1,
@@ -19,8 +17,6 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import Header from '../components/Header';
 import '@aws-amplify/ui-react/styles.css';
 import { useUser } from '../context/AuthContext';
-import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
 const Home: NextPage = () => {
 	const subreddits = ['Cats', 'Dogs', 'Shrimp', 'Programming'];
 	const { user, setUser } = useUser();

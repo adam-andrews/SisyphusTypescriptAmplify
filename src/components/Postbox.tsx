@@ -3,13 +3,11 @@ import Avatar from './Avatar';
 import { PhotographIcon, LinkIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../context/AuthContext';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { client } from '../lib/amplifyClient';
 import { Post as PostType, CreatePostInput, ListSubredditsQuery } from '../API';
 import { createPost } from '../graphql/mutations';
 import { getSubreddit, subredditBySubredditName } from '../graphql/queries';
 import toast, { Toaster } from 'react-hot-toast';
-import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
 
 type FormData = {
 	postTitle: string;
@@ -41,7 +39,7 @@ function PostBox({ subreddit }: Props) {
 		const { postTitle, postBody, postImage, subreddit } = formData;
 		// Check If subreddit exists
 		console.log('fetch subreddit');
-		const subredditRequest = (await API.graphql({
+		const subredditRequest = (await client.graphql({
 			query: subredditBySubredditName,
 			variables: { name: subreddit },
 		})) as {
@@ -62,7 +60,7 @@ function PostBox({ subreddit }: Props) {
 					vote: '0',
 				};
 				console.log(postDetails);
-				const postCreateRequest = (await API.graphql({
+				const postCreateRequest = (await client.graphql({
 					query: createPost,
 					variables: { input: postDetails },
 				})) as {

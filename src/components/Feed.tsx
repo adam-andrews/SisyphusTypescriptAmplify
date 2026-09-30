@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import { listPosts, postBySubredditName } from '../graphql/queries';
-import awsExports from '../aws-exports';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery, GraphQLSubscription } from 'aws-amplify/api';
+import { client } from '../lib/amplifyClient';
 import {
 	Post as PostType,
 	ListPostsQuery,
@@ -10,31 +10,20 @@ import {
 } from '../API';
 import { onCreatePost } from '../graphql/subscriptions';
 
-Amplify.configure(awsExports);
-
 interface FeedProps {
 	topic?: string;
-}
-
-interface OnCreatePostSubscriptionProps {
-	provider: any;
-	value: {
-		data: OnCreatePostSubscription;
-	};
 }
 
 export default function Feed({ topic }: FeedProps) {
 	const [posts, setPosts] = useState<PostType[]>();
 
 	useEffect(() => {
-		console.log('fetching posts');
-		const subscription = API.graphql({
-			query: onCreatePost,
-		});
-		if ('subscribe' in subscription) {
-			const sb = subscription.subscribe({
-				next: ({ provider, value }: OnCreatePostSubscriptionProps) => {
-					const { data } = value;
+		const sb = client
+			.graphql<GraphQLSubscription<OnCreatePostSubscription>>({
+				query: onCreatePost,
+			})
+			.subscribe({
+				next: ({ data }) => {
 					console.log('data changed', data);
 					setPosts((prevPosts: any) => {
 						if (!prevPosts) return [data.onCreatePost];
@@ -45,12 +34,7 @@ export default function Feed({ topic }: FeedProps) {
 					console.log('err at subscription to posts', error);
 				},
 			});
-			return () => {
-				if ('unsubscribe' in sb) {
-					sb.unsubscribe();
-				}
-			};
-		}
+		return () => sb.unsubscribe();
 	}, []);
 
 	function filterPostsByDate(posts: PostType[]) {
@@ -62,10 +46,9 @@ export default function Feed({ topic }: FeedProps) {
 	async function fetchPosts() {
 		console.log('fetching posts');
 		try {
-			const { data } = (await API.graphql({ query: listPosts })) as {
-				data: ListPostsQuery;
-				errors: any[];
-			};
+			const { data } = await client.graphql<GraphQLQuery<ListPostsQuery>>({
+				query: listPosts,
+			});
 			if (!data || !data.listPosts) return;
 
 			filterPostsByDate(data.listPosts.items as PostType[]);

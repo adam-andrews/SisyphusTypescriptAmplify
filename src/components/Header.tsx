@@ -18,13 +18,13 @@ import {
 import Avatar from './Avatar';
 import Logo from '../images/Logo.png';
 import Logomark from '../images/Logomark.png';
-import { Auth } from 'aws-amplify';
+import { signOut as amplifySignOut } from 'aws-amplify/auth';
 import Link from 'next/link';
 import { useUser } from '../context/AuthContext';
 function Header() {
 	async function signOut() {
 		try {
-			await Auth.signOut();
+			await amplifySignOut();
 		} catch (error) {
 			console.log('error signing out: ', error);
 		}

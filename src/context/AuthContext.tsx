@@ -7,7 +7,8 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { Auth, Hub } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
 
 interface UserContextType {
 	user: any | null;
@@ -28,19 +29,20 @@ export default function AuthContext({ children }: Props): ReactElement {
 	}, []);
 
 	useEffect(() => {
-		Hub.listen('auth', () => {
+		const stopListening = Hub.listen('auth', () => {
 			// perform some action to update state whenever an auth event is detected.
 			checkUser();
 		});
+		return stopListening;
 	}, []);
 
 	async function checkUser() {
 		try {
-			const amplifyUser = await Auth.currentAuthenticatedUser();
+			// Returns { username, userId, signInDetails }
+			const amplifyUser = await getCurrentUser();
 			setUser(amplifyUser);
 		} catch (error) {
 			// No current signed in user.
-			console.error(error);
 			setUser(null);
 		}
 	}

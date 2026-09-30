@@ -1,4 +1,5 @@
 {
+  "name": "sisyphus",
   "private": true,
   "scripts": {
     "dev": "node_modules/node/bin/node node_modules/.bin/next dev",

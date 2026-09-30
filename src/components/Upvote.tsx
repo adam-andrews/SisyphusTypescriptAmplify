@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/solid';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { client } from '../lib/amplifyClient';
 import { voteByPostId, getPost } from '../graphql/queries';
 import {
 	CreateVoteInput,
@@ -40,7 +40,7 @@ function Upvote({ postId }: UpvoteProps) {
 		if (!postId) return;
 		console.log('fetching upvotes');
 		try {
-			const { data } = (await API.graphql({
+			const { data } = (await client.graphql({
 				query: getPost,
 				variables: { id: postId },
 			})) as {
@@ -61,9 +61,10 @@ function Upvote({ postId }: UpvoteProps) {
 				vote: vote,
 			};
 
-			const { data } = (await API.graphql(
-				graphqlOperation(createVote, { input: upvote })
-			)) as {
+			const { data } = (await client.graphql({
+				query: createVote,
+				variables: { input: upvote },
+			})) as {
 				data: any;
 				errors: any[];
 			};
@@ -82,9 +83,10 @@ function Upvote({ postId }: UpvoteProps) {
 				vote: vote,
 			};
 
-			const { data } = (await API.graphql(
-				graphqlOperation(updateVoteQuery, { input: upvote })
-			)) as {
+			const { data } = (await client.graphql({
+				query: updateVoteQuery,
+				variables: { input: upvote },
+			})) as {
 				data: UpdateVoteMutation;
 				errors: any[];
 			};

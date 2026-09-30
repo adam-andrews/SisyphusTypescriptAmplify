@@ -13,13 +13,11 @@ import {
 import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 import Link from 'next/link';
-import { Auth } from 'aws-amplify';
 import {
 	ListVotesQuery,
 	Post as PostType,
 	Comment as CommentType,
 } from '../API';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listVotes } from '../graphql/queries';
 import { useUser } from '../context/AuthContext';
 

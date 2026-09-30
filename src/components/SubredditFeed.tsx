@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import { listPosts, postBySubredditName } from '../graphql/queries';
-import awsExports from '../aws-exports';
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { client } from '../lib/amplifyClient';
 import { Post as PostType, ListPostsQuery } from '../API';
-Amplify.configure(awsExports);
 
 interface FeedProps {
 	topic?: string;
@@ -19,7 +17,7 @@ export default function SubredditFeed({ topic }: FeedProps) {
 	async function fetchPosts() {
 		try {
 			console.log('topic yes', topic);
-			const subredditRequest = (await API.graphql({
+			const subredditRequest = (await client.graphql({
 				query: postBySubredditName,
 				variables: { subredditName: topic },
 			})) as {
